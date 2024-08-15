@@ -40,7 +40,7 @@ const Sidebar = () => {
                         paddingLeft: '14px',
                         paddingRight: '14px',
                     }}
-                    classNames='button-white w-full whitespace-nowrap'
+                    classNames={`button-white w-full whitespace-nowrap links ${open?'active':''}`}
                     text='Setting'
                     icon={<IoSettings size={24} />}
                 />

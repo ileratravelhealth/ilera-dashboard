@@ -36,23 +36,23 @@ body {
 
 @layer utilities {
   .start-start {
-    @apply flex justify-start items-start flex-col md:flex-row
+    @apply flex justify-start items-start 
   }
 
   .start-center {
-    @apply flex justify-start items-center flex-col md:flex-row
+    @apply flex justify-start items-center 
   }
 
   .center-center {
-    @apply flex justify-center items-center flex-col md:flex-row
+    @apply flex justify-center items-center 
   }
 
   .between-center {
-    @apply flex justify-between items-center flex-col md:flex-row
+    @apply flex justify-between items-center 
   }
 
   .end-center {
-    @apply flex justify-end items-center flex-col md:flex-row
+    @apply flex justify-end items-center 
   }
 
   .grid-4 {
