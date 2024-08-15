@@ -2,6 +2,7 @@ import { Form, Input, message } from 'antd'
 import React, { useState } from 'react'
 import { LoginFields } from '../../Utils/FormFields/Login'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
+import { Link } from 'react-router-dom'
 
 const Login = () => {
     //states
@@ -13,15 +14,15 @@ const Login = () => {
     return (
         <div className='h-screen w-full center-center'>
             <Form
-                className='max-w-[600px] w-full bg-[var(--bg-white)] p-4 rounded-md'
+                className='max-w-[550px] w-full bg-[var(--bg-white)] p-10 py-20 rounded-md card-shadow'
                 layout='vertical'
                 onFinish={onSubmitLoginForm}
             >
-                <p className='auth-heading text-center mb-8 mt-3'>Login to Account</p>
-                <p className='text text-center'>Please enter your email and password to continue</p>
+                <p className='auth-heading text-center my-3'>Login to Account</p>
+                <p className='text text-center mb-8'>Please enter your email and password to continue</p>
                 {
                     LoginFields?.map(item => {
-                        return <Form.Item key={item?.name}
+                        return <Form.Item key={item?.name} className='pb-3'
                             label={<span className='input-label'>{item?.label}</span>}
                             name={item?.name}
                             rules={[
@@ -39,6 +40,27 @@ const Login = () => {
                         </Form.Item>
                     })
                 }
+                <Form.Item
+                    name={`remember`}
+                >
+                    <div className=' between-center'>
+                        <div className='start-center w-fit  gap-2'>
+                            <Input className='w-fit cursor-pointer' id='checkbox' type='checkbox' />
+                            <label className='text-[var(--color-gray)] ml-1 cursor-pointer' htmlFor='checkbox'>
+                                Remember Password
+                            </label>
+                        </div>
+                        <Link className='text ' to={`/forget-password`}>
+                            Forget Password?
+                        </Link>
+                    </div>
+                </Form.Item>
+                <button style={{
+                    width: '100%',
+                    borderRadius:'20px'
+                }} className='button-black mt-8'>
+                    Sign In
+                </button>
             </Form>
         </div>
     )
