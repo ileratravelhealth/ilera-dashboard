@@ -3,11 +3,13 @@ import React, { useState } from 'react'
 import { LoginFields } from '../../Utils/FormFields/Login'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
+import { ResetPasswordFields } from '../../Utils/FormFields/ResetPassword'
 import Button from '../../Components/Shared/Button'
 
-const Login = () => {
+const ResetPassword = () => {
     //states
     const [password_type, set_password_type] = useState(null)
+    const [confirm_password_type, set_confirm_password_type] = useState(null)
     // handler
     const onSubmitLoginForm = value => {
 
@@ -22,7 +24,7 @@ const Login = () => {
                 <p className='auth-heading text-center my-3'>Login to Account</p>
                 <p className='text text-center mb-8'>Please enter your email and password to continue</p>
                 {
-                    LoginFields?.map(item => {
+                    ResetPasswordFields?.map(item => {
                         return <Form.Item key={item?.name} className='pb-3'
                             label={<span className='input-label'>{item?.label}</span>}
                             name={item?.name}
@@ -33,36 +35,25 @@ const Login = () => {
                                 }
                             ]}
                         >
-                            <Input className='input' type={password_type || item?.type} placeholder={item?.placeholder} suffix={item?.name === 'password' ? (password_type ? <FaEye className='text-lg hover:scale-105 active:scale-95 cursor-pointer' onClick={() => {
+                            <Input className='input' type={item?.name === 'confirm_password' ? confirm_password_type : password_type || item?.type} placeholder={item?.placeholder} suffix={item?.name === 'password' ? (password_type ? <FaEye className='text-lg hover:scale-105 active:scale-95 cursor-pointer' onClick={() => {
                                 set_password_type(null)
                             }} /> : <FaEyeSlash className='text-lg hover:scale-105 active:scale-95 cursor-pointer' onClick={() => {
                                 set_password_type('text')
+                            }} />) : item?.name === 'confirm_password' ? (confirm_password_type ? <FaEye className='text-lg hover:scale-105 active:scale-95 cursor-pointer' onClick={() => {
+                                set_confirm_password_type(null)
+                            }} /> : <FaEyeSlash className='text-lg hover:scale-105 active:scale-95 cursor-pointer' onClick={() => {
+                                set_confirm_password_type('text')
                             }} />) : ''} />
                         </Form.Item>
                     })
                 }
-                <Form.Item
-                    name={`remember`}
-                >
-                    <div className=' between-center'>
-                        <div className='start-center w-fit  gap-2'>
-                            <Input className='w-fit cursor-pointer' id='checkbox' type='checkbox' />
-                            <label className='text-[var(--color-gray)] ml-1 cursor-pointer' htmlFor='checkbox'>
-                                Remember Password
-                            </label>
-                        </div>
-                        <Link className='text ' to={`/forget-password`}>
-                            Forget Password?
-                        </Link>
-                    </div>
-                </Form.Item>
                 <Button classNames={`button-black mt-8`} style={{
                     width: '100%',
                     borderRadius: '20px'
-                }} text={`Sign in`} />
+                }} text={`Reset Password`} />
             </Form>
         </div>
     )
 }
 
-export default Login
+export default ResetPassword

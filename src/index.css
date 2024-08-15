@@ -115,4 +115,23 @@ body {
     @apply text-[var(--text)] text-base
   }
 
+  .links.active {
+    @apply button-black relative
+  }
+
+  .links:hover {
+    @apply button-black relative
+  }
+
+  .links:hover::after {
+    @apply h-full w-2 bg-[var(--bg-white)] absolute -left-2
+  }
+
+  .links.active::after {
+    @apply h-full w-2 bg-[var(--bg-white)] absolute -left-4
+  }
+}
+
+.links::after {
+  content: '';
 }
