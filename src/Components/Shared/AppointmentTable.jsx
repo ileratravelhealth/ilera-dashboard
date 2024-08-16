@@ -43,7 +43,7 @@ const AppointmentTable = ({ data, pagination, handler, current }) => {
             title: 'Status',
             dataIndex: 'status',
             key: 'status',
-            render: (status, record) => <button className={`${status==='current' ? 'button-blue':'button-green'}`}>{status}</button>
+            render: (status, record) => <button className={`${status === 'current' ? 'button-blue' : 'button-green'}`}>{status}</button>
         },
 
     ]
@@ -52,8 +52,13 @@ const AppointmentTable = ({ data, pagination, handler, current }) => {
             <Table dataSource={data} columns={columns} pagination={pagination ? {
                 pageSize: pagination?.limit || 10,
                 total: pagination?.total || 0,
-                current: current || 1,
-                onChange: handler && handler()
+                current: pagination?.current || 1,
+                onChange: (page) => {
+                    if (pagination?.handler) {
+                        pagination.handler(page)
+                    }
+                },
+                showSizeChanger: false
             } : false} />
         </>
     )

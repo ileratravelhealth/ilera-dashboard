@@ -6,6 +6,9 @@ import ForgetPassword from "../Pages/Auth/ForgetPassword";
 import Otp from "../Pages/Auth/Otp";
 import ResetPassword from "../Pages/Auth/ResetPassword";
 import Appointments from "../Pages/Dashboard/Appointments";
+import Transactions from "../Pages/Dashboard/Transactions";
+import Patients from "../Pages/Dashboard/Patients";
+import Doctors from "../Pages/Dashboard/Doctors";
 
 export const Routes = createBrowserRouter([
     {
@@ -19,6 +22,18 @@ export const Routes = createBrowserRouter([
             {
                 path: '/appointment',
                 element: <Appointments />
+            },
+            {
+                path: '/transactions',
+                element: <Transactions />
+            },
+            {
+                path: '/patients',
+                element: <Patients />
+            },
+            {
+                path: '/doctors',
+                element: <Doctors />
             },
         ]
     },
