@@ -38,16 +38,15 @@ const ChangeBannerOrder = ({ data }) => {
                         <>
                             <div className='grid-3 justify-center items-center mb-4'
                             >
-                                <p>image</p>
-                                <p>id</p>
-                                <p>order</p>
+                                <p>banner</p>
+                                <p>banner id</p>
+                                <p>banner order</p>
                             </div>
                             {fields.map(({ key, name, ...restField }) => {
                                 return (
                                     <div className='grid-3 justify-center items-center'
                                         key={key}
                                     >
-                                        {/* here i wants to show image how can i do that  */}
                                         <div className='-mt-8'>
                                             <img className='w-16 ' src={`${url}/${form.getFieldValue(['orders', name, 'image'])}` || ''} alt="" />
                                         </div>
