@@ -84,15 +84,15 @@ body {
   }
 
   .button-red {
-    @apply px-8 py-2 rounded-md flex justify-center items-center w-fit gap-2 bg-[var(--color-red)] text-[var(--color-white)] border border-[var(--color-red)] hover:scale-105 transition-all active:scale-95 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100 card-shadow
+    @apply px-4 py-1 rounded-3xl flex justify-center items-center w-fit gap-2 bg-[var(--color-red)] text-[var(--color-white)] border border-[var(--color-red)] hover:scale-105 transition-all active:scale-95 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100 card-shadow
   }
 
   .button-green {
-    @apply px-8 py-2 rounded-xl flex justify-center items-center w-fit gap-2 bg-[var(--color-white)] text-[var(--color-green)] border border-[var(--color-green)] hover:scale-105 transition-all active:scale-95 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100 card-shadow
+    @apply px-4 py-1 rounded-3xl flex justify-center items-center w-fit gap-2 bg-[var(--color-white)] text-[var(--color-green)] border border-[var(--color-green)] hover:scale-105 transition-all active:scale-95 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100 card-shadow
   }
 
   .button-blue {
-    @apply px-8 py-2 rounded-xl flex justify-center items-center w-fit gap-2 bg-[var(--color-white)] text-[var(--color-blue)] border border-[var(--color-blue)] hover:scale-105 transition-all active:scale-95 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100 card-shadow
+    @apply px-4 py-1 rounded-3xl flex justify-center items-center w-fit gap-2 bg-[var(--color-white)] text-[var(--color-blue)] border border-[var(--color-blue)] hover:scale-105 transition-all active:scale-95 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100 card-shadow
   }
 
   .heading {

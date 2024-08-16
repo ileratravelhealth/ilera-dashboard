@@ -7,7 +7,7 @@ const Header = () => {
     //states
     const navigate = useNavigate()
     return (
-        <div className='bg-[var(--primary-bg)] end-center py-7 px-4 gap-6'>
+        <div className='bg-[var(--primary-bg)] end-center h-[110px] px-4 gap-6'>
             <Badge className='bg-[var(--bg-white)] rounded-full cursor-pointer' count={2}>
                 <IoIosNotifications size={40} />
             </Badge>

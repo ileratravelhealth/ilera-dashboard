@@ -21,8 +21,8 @@ const AppointmentsOverview = () => {
             {
                 label: 'Monthly Data',
                 data: [1000, 800, 600, 400, 500, 700, 900, 600, 700, 800, 700, 750],
-                backgroundColor: '#007bff', // The color for the bars
-                borderRadius: 5, // Optional: add a slight border radius for better aesthetics
+                backgroundColor: '#007bff',
+                borderRadius: 5,
             },
         ],
     };
@@ -32,21 +32,21 @@ const AppointmentsOverview = () => {
             y: {
                 beginAtZero: true,
                 ticks: {
-                    stepSize: 200, // Adjust the step size to match the range
+                    stepSize: 200,
                 },
                 grid: {
-                    display: false, // Hide the horizontal grid lines
+                    display: false,
                 },
             },
             x: {
                 grid: {
-                    display: false, // Hide the vertical grid lines
+                    display: false,
                 },
             },
         },
         plugins: {
             legend: {
-                display: false, // Hide the legend
+                display: false,
             },
         },
         responsive: true,

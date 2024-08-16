@@ -5,6 +5,8 @@ import { SlCalender } from 'react-icons/sl'
 import IncomeCard from '../../Components/Dashboard/IncomeCard'
 import IncomeOverView from '../../Components/Dashboard/IncomeOverView'
 import AppointmentsOverview from '../../Components/Dashboard/AppointmentsOverview'
+import { Link } from 'react-router-dom'
+import NewAppointment from '../../Components/Dashboard/NewAppointment'
 const data = [
     {
         name: 'Total Income',
@@ -43,6 +45,17 @@ const DashboardHome = () => {
                 </Suspense>
                 <Suspense fallback={''}>
                     <AppointmentsOverview />
+                </Suspense>
+            </div>
+            <div className='bg-[var(--bg-white)] p-4 rounded-md mt-5'>
+                <div className='between-center'>
+                    <p className='heading'>New Appointment</p>
+                    <Link to={`/appointment`}>
+                        View all
+                    </Link>
+                </div>
+                <Suspense fallback={''}>
+                    <NewAppointment />
                 </Suspense>
             </div>
         </div>

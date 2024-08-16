@@ -5,6 +5,7 @@ import Login from "../Pages/Auth/Login";
 import ForgetPassword from "../Pages/Auth/ForgetPassword";
 import Otp from "../Pages/Auth/Otp";
 import ResetPassword from "../Pages/Auth/ResetPassword";
+import Appointments from "../Pages/Dashboard/Appointments";
 
 export const Routes = createBrowserRouter([
     {
@@ -14,7 +15,11 @@ export const Routes = createBrowserRouter([
             {
                 path: '/',
                 element: <DashboardHome />
-            }
+            },
+            {
+                path: '/appointment',
+                element: <Appointments />
+            },
         ]
     },
     {

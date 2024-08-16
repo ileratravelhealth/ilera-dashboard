@@ -10,6 +10,11 @@ export const SidebarLink = [
         icon: <LuCalendarClock size={24} />,
     },
     {
+        path: '/appointment',
+        label: 'Appointment',
+        icon: <LuCalendarClock size={24} />,
+    },
+    {
         path: '/transactions',
         label: 'Transactions',
         icon: <HiArrowTrendingUp size={24} />,
