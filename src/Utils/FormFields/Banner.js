@@ -1,16 +1,16 @@
-export const CategoryFields = [
+export const BannerFields = [
     {
-        name: 'category',
-        label: 'Category Name',
+        name: 'order',
+        label: 'View Order',
         placeholder: 'Health',
         required: true,
-        message: 'please input your Category',
+        message: 'please input your View Order',
         type: 'text',
         // accept: 'image'
     },
     {
         name: 'image',
-        label: 'Category Image',
+        label: 'Banner Image',
         // placeholder: 'Health',
         required: false,
         message: 'please Select your Category Image',

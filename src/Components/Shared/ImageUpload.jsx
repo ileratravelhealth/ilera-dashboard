@@ -2,13 +2,17 @@ import { Input } from 'antd'
 import React, { useState } from 'react'
 import { FaImage } from 'react-icons/fa6'
 
-const ImageUpload = ({ accept, setFiles, Files }) => {
+const ImageUpload = ({ accept, setFiles, Files, multiple }) => {
     const [isDragging, setIsDragging] = useState(false);
     const fileDrop = e => {
         e.preventDefault();
-        const newFiles = Array.from().filter(file => file.type.includes(accept));
+        const newFiles = Array.from(e.dataTransfer.files).filter(file => file.type.includes(accept));
         if (newFiles.length) {
-            setFiles([...Files, ...Files]);
+            if (multiple) {
+                setFiles([...Files, ...newFiles]);
+            } else {
+                setFiles([newFiles[0]]);
+            }
             setIsDragging(false);
         } else {
             // toast.error(`Invalid ${accept}.`);
@@ -30,9 +34,28 @@ const ImageUpload = ({ accept, setFiles, Files }) => {
             onDrop={fileDrop}
             onDragOver={onDragOver}
             onDragLeave={onDragLeave}
-            htmlFor='image' className={`center-center flex-col w-full ${isDragging ? 'border-2' : 'border border-dashed'}`}>
-            <FaImage size={100} />
-            <Input accept={`${accept}/*`} id='image' className='-z-40 opacity-0 hidden' type='file' />
+            htmlFor='image' className={`center-center flex-col w-full gap-4 h-[250px] ${isDragging ? 'border-4 border-black' : 'border-2 border-dashed'}`}>
+            {
+                isDragging ? <p>drop here</p> : <div className=' w-full h-[250px] overflow-hidden center-center flex-col gap-4'>
+                    {
+                        Files.length <= 0 && <p>Drop image file here to upload
+                            (or click)</p>
+                    }
+                    {
+                        Files.length > 0 ? <img src={URL.createObjectURL(Files[0])} className=' h-full w-full object-contain' alt="" /> : <FaImage size={50} />
+                    }
+                </div>
+            }
+            <Input onChange={(e) => {
+                if (multiple) {
+                    setFiles([...Files, ...e.target.files])
+                } else {
+                    setFiles([e.target.files[0]])
+
+                }
+            }} accept={`${accept}/*`} id='image' style={{
+                display: 'none'
+            }} type='file' />
         </label>
     )
 }
