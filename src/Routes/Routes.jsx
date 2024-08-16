@@ -9,6 +9,7 @@ import Appointments from "../Pages/Dashboard/Appointments";
 import Transactions from "../Pages/Dashboard/Transactions";
 import Patients from "../Pages/Dashboard/Patients";
 import Doctors from "../Pages/Dashboard/Doctors";
+import Management from "../Pages/Dashboard/Management";
 
 export const Routes = createBrowserRouter([
     {
@@ -34,6 +35,10 @@ export const Routes = createBrowserRouter([
             {
                 path: '/doctors',
                 element: <Doctors />
+            },
+            {
+                path: '/management',
+                element: <Management />
             },
         ]
     },
