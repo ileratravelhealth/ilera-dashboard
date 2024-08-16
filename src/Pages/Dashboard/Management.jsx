@@ -22,7 +22,7 @@ const Management = () => {
                     </button>
                 </div>
                 <button onClick={()=>set_open_category_banner_modal(true)} className='button-black'>
-                    <TiPlus /> Add Category
+                    <TiPlus /> Add {category?'Category':'Banner'}
                 </button>
             </div>
             {
@@ -38,7 +38,7 @@ const Management = () => {
                 centered
                 footer={false}
             >
-                <Category_Banner_Form formFor={category ? 'category' : 'banner'} action={'add'} close_modal={set_open_category_banner_modal} />
+                <Category_Banner_Form formFor={category ? 'category' : 'banner'} data={{}} action={'add'} close_modal={set_open_category_banner_modal} />
             </Modal>
         </div>
     )

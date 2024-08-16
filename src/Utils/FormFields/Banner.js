@@ -2,7 +2,7 @@ export const BannerFields = [
     {
         name: 'order',
         label: 'View Order',
-        placeholder: 'Health',
+        placeholder: 'Banner order ',
         required: true,
         message: 'please input your View Order',
         type: 'text',

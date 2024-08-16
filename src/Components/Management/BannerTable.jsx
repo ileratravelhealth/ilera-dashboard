@@ -5,6 +5,7 @@ import { MdBlockFlipped, MdDelete, MdEdit } from 'react-icons/md'
 import { FaCheck } from 'react-icons/fa6'
 import { RxCross2 } from 'react-icons/rx'
 import ChangeBannerOrder from './ChangeBannerOrder'
+import Category_Banner_Form from './Category_Banner_Form'
 const data = [
     {
         "key": 1,
@@ -81,11 +82,13 @@ const data = [
 
 const BannerTable = () => {
     // states
+    const [open_category_banner_modal, set_open_category_banner_modal] = useState(false)
     const [page, setPage] = useState(new URLSearchParams(location.search).get('page') || 1)
     const [openOrderChangeModal, setOpenOrderChangeModal] = useState(false)
     const meta = {
         limit: 10, total: 30
     }
+    const [selected_data, set_selected_data] = useState({})
     // handler
 
     // table columns
@@ -98,7 +101,7 @@ const BannerTable = () => {
         {
             title: (<div className='start-center gap-3'>
                 Order
-                <button onClick={()=>setOpenOrderChangeModal(true)} style={{
+                <button onClick={() => setOpenOrderChangeModal(true)} style={{
                     padding: '3px 10px'
                 }} className='button-black' type="button">
                     change
@@ -126,7 +129,10 @@ const BannerTable = () => {
             dataIndex: 'key',
             key: 'key ',
             render: (_, record) => <div className='start-center gap-3 w-fit'>
-                <button style={{
+                <button onClick={() => {
+                    set_selected_data(record)
+                    set_open_category_banner_modal(true)
+                }} style={{
                     padding: '10px'
                 }} className='button-black'>
                     <MdEdit size={24} />
@@ -148,14 +154,22 @@ const BannerTable = () => {
                 onChange: (page) => setPage(page),
                 showSizeChanger: false
             }} />
-            <Modal 
-            open={openOrderChangeModal}
-            onCancel={()=>setOpenOrderChangeModal(false)}
-            footer={false}
-            centered
-            width={600}
+            <Modal
+                open={openOrderChangeModal}
+                onCancel={() => setOpenOrderChangeModal(false)}
+                footer={false}
+                centered
+                width={600}
             >
-                <ChangeBannerOrder data={data}/>
+                <ChangeBannerOrder data={data} />
+            </Modal>
+            <Modal
+                open={open_category_banner_modal}
+                onCancel={() => set_open_category_banner_modal(false)}
+                centered
+                footer={false}
+            >
+                <Category_Banner_Form formFor={'banner'} action={'update'} data={selected_data} close_modal={set_open_category_banner_modal} />
             </Modal>
         </>
     )
