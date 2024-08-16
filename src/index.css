@@ -36,23 +36,23 @@ body {
 
 @layer utilities {
   .start-start {
-    @apply flex justify-start items-start 
+    @apply flex justify-start items-start
   }
 
   .start-center {
-    @apply flex justify-start items-center 
+    @apply flex justify-start items-center
   }
 
   .center-center {
-    @apply flex justify-center items-center 
+    @apply flex justify-center items-center
   }
 
   .between-center {
-    @apply flex justify-between items-center 
+    @apply flex justify-between items-center
   }
 
   .end-center {
-    @apply flex justify-end items-center 
+    @apply flex justify-end items-center
   }
 
   .grid-4 {
@@ -93,6 +93,10 @@ body {
 
   .button-blue {
     @apply px-8 py-2 rounded-xl flex justify-center items-center w-fit gap-2 bg-[var(--color-white)] text-[var(--color-blue)] border border-[var(--color-blue)] hover:scale-105 transition-all active:scale-95 disabled:bg-gray-400 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:active:scale-100 card-shadow
+  }
+
+  .heading {
+    @apply text-lg font-semibold leading-5 text-[var(--bg-black)]
   }
 
   .page-heading {

@@ -1,6 +1,7 @@
 import React from 'react'
 import Sidebar from '../Components/Shared/Sidebar'
 import Header from '../Components/Shared/Header'
+import { Outlet } from 'react-router-dom'
 const Dashboard = () => {
     return (
         <div className='flex justify-between items-center gap-0 h-screen overflow-y-scroll'>
@@ -9,6 +10,9 @@ const Dashboard = () => {
             </div>
             <div className='w-[calc(100%-300px)] h-screen overflow-y-scroll'>
                 <Header />
+                <div className='w-full p-5 rounded-md '>
+                    <Outlet />
+                </div>
             </div>
         </div>
     )
