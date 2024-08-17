@@ -42,7 +42,7 @@ const FAQ = () => {
                 onCancel={() => setOpenModal(false)}
                 footer={false}
                 centered
-                width={60}
+                width={600}
             >
                 <AddFaqForm />
             </Modal>

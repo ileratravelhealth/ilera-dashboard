@@ -13,6 +13,8 @@ import Management from "../Pages/Dashboard/Management";
 import Profile from "../Pages/Dashboard/Profile";
 import Notification from "../Pages/Dashboard/Notification";
 import FAQ from "../Pages/Dashboard/FAQ";
+import PrivacyPolicy from "../Pages/Dashboard/PrivacyPolicy";
+import TermsCondition from "../Pages/Dashboard/TermsCondition";
 
 export const Routes = createBrowserRouter([
     {
@@ -54,6 +56,14 @@ export const Routes = createBrowserRouter([
             {
                 path: '/faq',
                 element: <FAQ />
+            },
+            {
+                path: '/privacy-policy',
+                element: <PrivacyPolicy />
+            },
+            {
+                path: '/terms-&-condition',
+                element: <TermsCondition />
             },
         ]
     },

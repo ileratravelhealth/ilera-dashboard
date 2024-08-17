@@ -139,3 +139,6 @@ body {
 .links::after {
   content: '';
 }
+.jodit-status-bar{
+  display: none;
+}
