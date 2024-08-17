@@ -1,8 +1,6 @@
 import { Form, Input } from 'antd'
 import React, { useState } from 'react'
-import { LoginFields } from '../../Utils/FormFields/Login'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
 import { ResetPasswordFields } from '../../Utils/FormFields/ResetPassword'
 import Button from '../../Components/Shared/Button'
 

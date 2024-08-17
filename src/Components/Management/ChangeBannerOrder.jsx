@@ -12,6 +12,20 @@ const ChangeBannerOrder = ({ data }) => {
     const onFinish = (values) => {
         console.log('Received values of form:', values);
     };
+
+    // const validateUnique = (rule, value) => {
+    //     // Assuming you have an array of form values
+    //     const formValues = form.getFieldsValue();
+
+    //     const hasDuplicate = formValues.some((item, index) => {
+    //       return item.id === value && index !== formValues.indexOf(item);
+    //     });
+
+    //     if (hasDuplicate) {
+    //       return Promise.reject('ID must be unique');
+    //     }
+    //     return Promise.resolve();
+    //   };
     //effects 
     useEffect(() => {
         const newData = data.map(item => {
@@ -70,6 +84,7 @@ const ChangeBannerOrder = ({ data }) => {
                                                     required: true,
                                                     message: 'Missing order',
                                                 },
+                                                // { validator: validateUnique },
                                             ]}
                                         >
                                             <Input placeholder="order" />

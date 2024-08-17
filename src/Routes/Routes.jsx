@@ -10,6 +10,7 @@ import Transactions from "../Pages/Dashboard/Transactions";
 import Patients from "../Pages/Dashboard/Patients";
 import Doctors from "../Pages/Dashboard/Doctors";
 import Management from "../Pages/Dashboard/Management";
+import Profile from "../Pages/Dashboard/Profile";
 
 export const Routes = createBrowserRouter([
     {
@@ -39,6 +40,10 @@ export const Routes = createBrowserRouter([
             {
                 path: '/management',
                 element: <Management />
+            },
+            {
+                path: '/profile',
+                element: <Profile />
             },
         ]
     },

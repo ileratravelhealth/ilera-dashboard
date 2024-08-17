@@ -22,7 +22,7 @@ const Management = () => {
                     </button>
                 </div>
                 <button onClick={()=>set_open_category_banner_modal(true)} className='button-black'>
-                    <TiPlus /> Add {category?'Category':'Banner'}
+                    <TiPlus size={24} /> Add {category?'Category':'Banner'}
                 </button>
             </div>
             {
