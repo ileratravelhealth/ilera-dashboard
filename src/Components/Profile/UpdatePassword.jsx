@@ -1,5 +1,5 @@
 import { Form, Input } from 'antd'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
 import { ResetPasswordFields } from '../../Utils/FormFields/ResetPassword'
 import Button from '../../Components/Shared/Button'
@@ -7,6 +7,7 @@ import { UpdatePasswordFields } from '../../Utils/FormFields/UpdatePassword'
 
 const UpdatePassword = () => {
     //states
+    const [form] = Form.useForm()
     const [old_password_type, set_old_password_type] = useState(null)
     const [password_type, set_password_type] = useState(null)
     const [confirm_password_type, set_confirm_password_type] = useState(null)
@@ -14,11 +15,18 @@ const UpdatePassword = () => {
     const onSubmitResetForm = value => {
 
     }
+    const OnResetFields = () => {
+        form.resetFields()
+    }
+    useEffect(() => {
+        form.setFieldsValue()
+    }, [form])
     return (
         <Form
             className='max-w-[550px] w-full bg-[var(--bg-white)] p-10 rounded-md card-shadow'
             layout='vertical'
             onFinish={onSubmitResetForm}
+            form={form}
         >
             {
                 UpdatePasswordFields?.map(item => {
@@ -48,10 +56,14 @@ const UpdatePassword = () => {
                     </Form.Item>
                 })
             }
-            <Button classNames={`button-black mt-8`} style={{
-                width: '100%',
-                borderRadius: '20px'
-            }} text={`Reset Password`} />
+            <div className='center-center gap-3'>
+                <Button classNames={`button-white mt-8`} type={`button`} handler={OnResetFields} style={{
+                    borderRadius: '20px'
+                }} text={`Reset`} />
+                <Button classNames={`button-black mt-8`} style={{
+                    borderRadius: '20px'
+                }} text={`Confirm`} />
+            </div>
         </Form>
     )
 }

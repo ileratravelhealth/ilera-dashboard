@@ -11,6 +11,8 @@ import Patients from "../Pages/Dashboard/Patients";
 import Doctors from "../Pages/Dashboard/Doctors";
 import Management from "../Pages/Dashboard/Management";
 import Profile from "../Pages/Dashboard/Profile";
+import Notification from "../Pages/Dashboard/Notification";
+import FAQ from "../Pages/Dashboard/FAQ";
 
 export const Routes = createBrowserRouter([
     {
@@ -44,6 +46,14 @@ export const Routes = createBrowserRouter([
             {
                 path: '/profile',
                 element: <Profile />
+            },
+            {
+                path: '/notification',
+                element: <Notification />
+            },
+            {
+                path: '/faq',
+                element: <FAQ />
             },
         ]
     },
