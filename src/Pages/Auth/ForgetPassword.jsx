@@ -2,15 +2,32 @@ import { Form, Input } from 'antd'
 import React from 'react'
 import { ForgetPasswordFields } from '../../Utils/FormFields/ForgetPassword'
 import Button from '../../Components/Shared/Button'
+import { useForgetPasswordMutation } from '../../Redux/Apis/authApi'
+import Loading from '../../Components/Shared/Loading'
+import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 
 const ForgetPassword = () => {
+    const [forgetPassword, { isLoading }] = useForgetPasswordMutation()
+    const navigate = useNavigate()
     //states
     // handler
     const onSubmitLoginForm = value => {
-        // console.log(value)
+        forgetPassword(value).unwrap().then((res) => {
+            if (res?.success) {
+                localStorage.setItem('email', JSON.stringify(value?.email))
+                toast.success(res.message || 'a verification code has been sent to your email')
+                return navigate('/otp')
+            } else {
+                toast.error('something went wrong')
+            }
+        }).catch((err) => toast.error(err?.data?.message || 'something went wrong'))
     }
     return (
         <div className='h-screen w-full center-center'>
+            {
+                isLoading && <Loading />
+            }
             <Form
                 className='max-w-[550px] w-full bg-[var(--bg-white)] p-10 py-20 rounded-md card-shadow'
                 layout='vertical'

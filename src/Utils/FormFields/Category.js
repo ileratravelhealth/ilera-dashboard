@@ -1,6 +1,6 @@
 export const CategoryFields = [
     {
-        name: 'category',
+        name: 'name',
         label: 'Category Name',
         placeholder: 'Health',
         required: true,
@@ -9,7 +9,7 @@ export const CategoryFields = [
         // accept: 'image'
     },
     {
-        name: 'image',
+        name: '',
         label: 'Category Image',
         // placeholder: 'Health',
         required: false,

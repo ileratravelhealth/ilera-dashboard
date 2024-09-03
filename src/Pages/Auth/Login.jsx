@@ -1,19 +1,41 @@
-import { Form, Input } from 'antd'
+import { Form, Input, Spin } from 'antd'
 import React, { useState } from 'react'
 import { LoginFields } from '../../Utils/FormFields/Login'
 import { FaEye, FaEyeSlash } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Button from '../../Components/Shared/Button'
+import { useGetProfileQuery, useLoginUserMutation } from '../../Redux/Apis/authApi'
+import toast from 'react-hot-toast'
+import Loading from '../../Components/Shared/Loading'
 
 const Login = () => {
+    const { data, isLoading: fetchingProfile, isError, error } = useGetProfileQuery()
+    const navigate = useNavigate()
+    const location = useLocation()
+    if (!fetchingProfile && data?.data?.role === 'ADMIN') {
+        navigate(location?.state || '/')
+    }
     //states
     const [password_type, set_password_type] = useState(null)
-    // handler
-    const onSubmitLoginForm = value => {
+    const [LoginUser, { isLoading }] = useLoginUserMutation()
 
+    // handler
+    const onSubmitLoginForm = (value) => {
+        LoginUser(value).unwrap().then((res) => {
+            if (res.data?.role !== 'ADMIN') {
+                return toast.error('You are not authorized to access this page.')
+            }
+            localStorage.setItem('token', JSON.stringify(res?.token))
+            toast.success(res.data?.message || 'logged in successfully')
+            return navigate(location?.state || '/')
+        })
+            .catch((err) => toast.error(err.data.message || 'something went wrong'))
     }
     return (
         <div className='h-screen w-full center-center'>
+            {
+                isLoading && <Loading />
+            }
             <Form
                 className='max-w-[550px] w-full bg-[var(--bg-white)] p-10 py-20 rounded-md card-shadow'
                 layout='vertical'
@@ -46,7 +68,7 @@ const Login = () => {
                 >
                     <div className=' between-center'>
                         <div className='start-center w-fit  gap-2'>
-                            <Input className='w-fit cursor-pointer' id='checkbox' type='checkbox' />
+                            <Input className='w-fit cursor-pointer ' id='checkbox' type='checkbox' />
                             <label className='text-[var(--color-gray)] ml-1 cursor-pointer' htmlFor='checkbox'>
                                 Remember Password
                             </label>

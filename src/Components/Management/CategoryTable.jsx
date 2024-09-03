@@ -3,58 +3,8 @@ import UserImageName from '../Shared/UserImageName'
 import { Modal, Table } from 'antd'
 import { MdBlockFlipped, MdDelete, MdEdit } from 'react-icons/md'
 import Category_Banner_Form from './Category_Banner_Form'
-const data = [
-    {
-        "key": 1,
-        "category": "Cardiology",
-        "image": "KG9Yn7J/one-piece-zoro-in-wano-arc.jpg"
-    },
-    {
-        "key": 2,
-        "category": "Dermatology",
-        "image": "KG9Yn7J/one-piece-zoro-in-wano-arc.jpg"
-    },
-    {
-        "key": 3,
-        "category": "Orthopedics",
-        "image": "KG9Yn7J/one-piece-zoro-in-wano-arc.jpg"
-    },
-    {
-        "key": 4,
-        "category": "Pediatrics",
-        "image": "KG9Yn7J/one-piece-zoro-in-wano-arc.jpg"
-    },
-    {
-        "key": 5,
-        "category": "Oncology",
-        "image": "KG9Yn7J/one-piece-zoro-in-wano-arc.jpg"
-    },
-    {
-        "key": 6,
-        "category": "Endocrinology",
-        "image": "KG9Yn7J/one-piece-zoro-in-wano-arc.jpg"
-    },
-    {
-        "key": 7,
-        "category": "Gastroenterology",
-        "image": "KG9Yn7J/one-piece-zoro-in-wano-arc.jpg"
-    },
-    {
-        "key": 8,
-        "category": "Neurology",
-        "image": "KG9Yn7J/one-piece-zoro-in-wano-arc.jpg"
-    },
-    {
-        "key": 9,
-        "category": "Psychiatry",
-        "image": "KG9Yn7J/one-piece-zoro-in-wano-arc.jpg"
-    },
-    {
-        "key": 10,
-        "category": "Rheumatology",
-        "image": "KG9Yn7J/one-piece-zoro-in-wano-arc.jpg"
-    }
-]
+import { useGetCategoryQuery } from '../../Redux/Apis/categoryApi'
+
 
 const CategoryTable = () => {
     const [open_category_banner_modal, set_open_category_banner_modal] = useState(false)
@@ -64,20 +14,24 @@ const CategoryTable = () => {
         limit: 10, total: 30
     }
     const [selected_data, set_selected_data] = useState({})
+    // rtk query
+    const { data, isLoading, isError, error } = useGetCategoryQuery(page)
     // handler
+    const handleDelete = id => {
 
+    }
     // table columns
     const columns = [
-        {
-            title: '#Sl',
-            dataIndex: 'key',
-            key: 'key'
-        },
+        // {
+        //     title: '#Sl',
+        //     dataIndex: 'key',
+        //     key: 'key'
+        // },
         {
             title: 'Category Name',
             dataIndex: 'category',
             key: 'category',
-            render: (_, record) => <UserImageName image={record?.image} />
+            render: (_, record) => <UserImageName name={record?.name} image={record?.img} />
         },
         {
             title: 'actions',
@@ -102,9 +56,9 @@ const CategoryTable = () => {
     ]
     return (
         <>
-            <Table dataSource={data} columns={columns} pagination={{
-                pageSize: meta.limit || 10,
-                total: meta?.total || 0,
+            <Table dataSource={data?.data} columns={columns} pagination={{
+                pageSize: data?.pagination.itemsPerPage || 10,
+                total: data?.pagination?.totalItems || 0,
                 current: page || 1,
                 onChange: (page) => setPage(page),
                 showSizeChanger: false

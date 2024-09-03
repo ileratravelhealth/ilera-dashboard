@@ -16,7 +16,7 @@ export const UpdateProfileFields = [
         type: 'email',
     },
     {
-        name: 'number',
+        name: 'phone',
         label: 'Phone Number',
         placeholder: '8801566026301',
         required: true,
@@ -24,7 +24,7 @@ export const UpdateProfileFields = [
         type: 'number',
     },
     {
-        name: 'dateOfBirth',
+        name: 'date_of_birth',
         label: 'Date of birth',
         placeholder: '26-02-2002',
         required: true,

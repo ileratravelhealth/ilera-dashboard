@@ -1,1 +1,1 @@
-export const url = 'https://i.ibb.co'
+export const url = 'http://103.161.9.133:5000'

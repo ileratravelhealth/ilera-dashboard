@@ -1,6 +1,6 @@
 export const UpdatePasswordFields = [
     {
-        name: 'current_password',
+        name: 'old_Password',
         label: 'Current Password',
         placeholder: 'insert your password',
         required: true,

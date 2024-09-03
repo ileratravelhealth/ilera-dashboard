@@ -1,8 +1,9 @@
 import { Input } from 'antd'
 import React, { useState } from 'react'
 import { FaImage } from 'react-icons/fa6'
+import { url } from '../../Utils/BaseUrl';
 
-const ImageUpload = ({ accept, setFiles, Files, multiple }) => {
+const ImageUpload = ({ accept, setFiles, Files, multiple, image }) => {
     const [isDragging, setIsDragging] = useState(false);
     const fileDrop = e => {
         e.preventDefault();
@@ -38,11 +39,11 @@ const ImageUpload = ({ accept, setFiles, Files, multiple }) => {
             {
                 isDragging ? <p>drop here</p> : <div className=' w-full h-[250px] overflow-hidden center-center flex-col gap-4'>
                     {
-                        Files.length <= 0 && <p>Drop image file here to upload
+                        Files.length <= 0 && image ? <img className=' h-full w-full object-contain' src={`${url}/${image}`} /> : <p>Drop image file here to upload
                             (or click)</p>
                     }
                     {
-                        Files.length > 0 ? <img src={URL.createObjectURL(Files[0])} className=' h-full w-full object-contain' alt="" /> : <FaImage size={50} />
+                        Files.length > 0 ? <img src={URL.createObjectURL(Files[0])} className=' h-full w-full object-contain' alt="" /> : !image && <FaImage size={50} />
                     }
                 </div>
             }
