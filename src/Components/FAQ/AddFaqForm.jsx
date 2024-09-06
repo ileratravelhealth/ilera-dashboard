@@ -1,14 +1,28 @@
 import { Form, Input } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import React, { useState } from 'react'
+import toast from 'react-hot-toast';
 import { FaPlus } from 'react-icons/fa6';
 import { RxCross2 } from 'react-icons/rx';
+import Loading from '../Shared/Loading';
 
-const AddFaqForm = () => {
+const AddFaqForm = ({ addFaq, loading, setOpenModal }) => {
     const [form] = Form.useForm()
     //handler
-    const onFinish = (values) => {
-        console.log('Received values of form:', values);
+    const onFinish = async (values) => {
+        if (Array.isArray(values.faq)) {
+            for (let i = 0; i < values.faq.length; i++) {
+                const item = values.faq[i];
+                try {
+                    const res = await addFaq(item).unwrap();
+                    toast.success(`FAQ ${i + 1} ${res?.message}` || 'FAQ added successfully');
+                    i === values.faq.length - 1 && setOpenModal(false);
+                } catch (err) {
+                    toast.error(`FAQ ${i + 1} ${err?.data?.message}` || 'Something went wrong');
+                    break;
+                }
+            }
+        }
     };
     return (
         <Form className='w-full'
@@ -74,8 +88,8 @@ const AddFaqForm = () => {
                 }}
             </Form.List>
             <Form.Item className=''>
-                <button type="submit" className='button-black mx-auto' htmlType="submit">
-                    Save
+                <button onClick={() => toast.dismiss()} type="submit" disabled={loading} className='button-black mx-auto disabled:bg-slate-400 disabled:cursor-not-allowed' htmlType="submit">
+                    {loading ? <Loading /> : 'Save'}
                 </button>
             </Form.Item>
         </Form>

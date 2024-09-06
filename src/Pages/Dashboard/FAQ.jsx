@@ -1,31 +1,55 @@
 import React, { useState } from 'react'
 import PageHeading from '../../Components/Shared/PageHeading'
 import Button from '../../Components/Shared/Button'
-import { MdDelete } from 'react-icons/md'
+import { MdDelete, MdNotInterested } from 'react-icons/md'
 import { FaPlus } from 'react-icons/fa6'
 import { Modal } from 'antd'
 import AddFaqForm from '../../Components/FAQ/AddFaqForm'
-const data = [
-    { "key": 1, "question": "How do I book an appointment?", "answer": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal." },
+import { useAddFaqMutation, useDeleteFaqMutation, useGetAllFaqQuery } from '../../Redux/Apis/faq'
+import Loading from '../../Components/Shared/Loading'
+import toast from 'react-hot-toast'
 
-    { "key": 2, "question": "Can I cancel or reschedule an appointment?", "answer": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal." },
-
-    { "key": 3, "question": "How do I join a telemedicine consultation?", "answer": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal." },
-
-    { "key": 4, "question": "How do I access my medical records?", "answer": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal." }
-
-]
 const FAQ = () => {
+    // sates 
     const [openModal, setOpenModal] = useState()
+    //rtk query
+    const { data, isLoading, isError } = useGetAllFaqQuery()
+    const [addFaq, { isLoading: loading }] = useAddFaqMutation()
+    const [deleteFaq, { isLoading: deleteLoading }] = useDeleteFaqMutation()
+    //  handler 
+    const deleteHandler = (id) => {
+        toast((t) => (
+            <span>
+                <p>are you sure wants to delete this faq?</p>
+                <span className='start-center gap-2 mt-1'>
+                    <Button handler={() => {
+                        toast.dismiss(t.id)
+                        deleteFaq(id)
+                    }} icon={<MdDelete />} classNames={`button-red`} style={{
+                        padding: '4px'
+                    }} />
+                    <Button style={{
+                        padding: '3px ',
+                        borderRadius: '3px'
+                    }} classNames={`button-green`} icon={<MdNotInterested />} handler={() => toast.dismiss(t.id)}>
+                        no
+                    </Button>
+                </span>
+            </span>
+        ));
+    }
     return (
         <div className='bg-[var(--bg-gray-20)] p-4 rounded-md'>
+            {
+                (loading || isLoading || deleteLoading) && <Loading />
+            }
             <PageHeading text={`FAQ`} />
             <div className='grid-2 gap-4 mt-6'>
                 {
-                    data?.map((item, i) => {
+                    data?.data?.map((item, i) => {
                         return <div className='w-full h-full' key={i}>
                             <div className='start-center gap-2'>
-                                <p>Question</p> <Button icon={<MdDelete />} classNames={`button-red`} style={{
+                                <p>Question</p> <Button handler={() => { toast.dismiss();deleteHandler(item?._id);  }} icon={<MdDelete />} classNames={`button-red`} style={{
                                     padding: '4px'
                                 }} />
                             </div>
@@ -44,7 +68,7 @@ const FAQ = () => {
                 centered
                 width={600}
             >
-                <AddFaqForm />
+                <AddFaqForm addFaq={addFaq} loading={loading} setOpenModal={setOpenModal} />
             </Modal>
         </div>
     )
