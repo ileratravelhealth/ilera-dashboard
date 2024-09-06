@@ -22,6 +22,7 @@ const faqApi = baseApi.injectEndpoints({
             },
             invalidatesTags: ['faq']
         }),
+        // delete faq
         deleteFaq: builder.mutation({
             query: (id) => {
                 return {
