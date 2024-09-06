@@ -32,6 +32,7 @@ const Category_Banner_Form = ({ formFor, action, data, close_modal }) => {
                     if (res.success) {
                         toast.success(res.message || 'Category Updated Successfully')
                         form.resetFields()
+                        setFiles([])
                         close_modal(false)
                     } else {
                         toast.error('something went wrong')
@@ -41,12 +42,12 @@ const Category_Banner_Form = ({ formFor, action, data, close_modal }) => {
                 if (Files.length <= 0) {
                     toast.error('Please select a Category image')
                 }
-
                 addCategory(formData).unwrap().then((res) => {
                     if (res.success) {
                         toast.success(res.message || 'Category Added Successfully')
                         form.resetFields()
-                        close_modal(true)
+                        setFiles([])
+                        close_modal(false)
                     } else {
                         toast.error('something went wrong')
                     }

@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import UserImageName from '../Shared/UserImageName'
 import { Modal, Table } from 'antd'
-import { MdBlockFlipped, MdDelete, MdEdit } from 'react-icons/md'
+import { MdBlockFlipped, MdDelete, MdEdit, MdNotInterested } from 'react-icons/md'
 import Category_Banner_Form from './Category_Banner_Form'
-import { useGetCategoryQuery } from '../../Redux/Apis/categoryApi'
+import { useDeleteCategoryMutation, useGetCategoryQuery } from '../../Redux/Apis/categoryApi'
+import Loading from '../Shared/Loading'
+import toast from 'react-hot-toast'
+import Button from '../Shared/Button'
 
 
 const CategoryTable = () => {
@@ -16,9 +19,29 @@ const CategoryTable = () => {
     const [selected_data, set_selected_data] = useState({})
     // rtk query
     const { data, isLoading, isError, error } = useGetCategoryQuery(page)
+    const [deleteCategory, { isLoading: isDeleting }] = useDeleteCategoryMutation()
     // handler
     const handleDelete = id => {
-
+        toast.dismiss()
+        toast((t) => (
+            <span>
+                <p>are you sure wants to delete this Category?</p>
+                <span className='start-center gap-2 mt-1'>
+                    <Button handler={() => {
+                        toast.dismiss(t.id)
+                        deleteCategory(id).unwrap().then((res) => toast.success(res?.message || 'Category deleted successfully')).catch((err) => toast.error(err?.data?.message || 'something went wrong'))
+                    }} icon={<MdDelete />} classNames={`button-red`} style={{
+                        padding: '4px'
+                    }} />
+                    <Button style={{
+                        padding: '3px ',
+                        borderRadius: '3px'
+                    }} classNames={`button-green`} icon={<MdNotInterested />} handler={() => toast.dismiss(t.id)}>
+                        no
+                    </Button>
+                </span>
+            </span>
+        ));
     }
     // table columns
     const columns = [
@@ -46,7 +69,7 @@ const CategoryTable = () => {
                 }} className='button-black'>
                     <MdEdit size={24} />
                 </button>
-                <button style={{
+                <button onClick={() => handleDelete(record?._id)} style={{
                     padding: '10px'
                 }} className='button-red'>
                     <MdDelete size={24} />
@@ -63,6 +86,9 @@ const CategoryTable = () => {
                 onChange: (page) => setPage(page),
                 showSizeChanger: false
             }} />
+            {
+                isDeleting && <Loading />
+            }
             <Modal
                 open={open_category_banner_modal}
                 onCancel={() => set_open_category_banner_modal(false)}

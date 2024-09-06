@@ -2,8 +2,8 @@ import { baseApi } from "../BaseUrl";
 
 const categoryApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
-        // add category
-        addCategory: builder.mutation({
+        // add Banner
+        addBanner: builder.mutation({
             query: (data) => {
                 return {
                     url: 'category/create-category',
@@ -13,8 +13,8 @@ const categoryApi = baseApi.injectEndpoints({
             },
             invalidatesTags: ['category']
         }),
-        // update category
-        updateCategory: builder.mutation({
+        // update Banner
+        updateBanner: builder.mutation({
             query: ({ id, data }) => {
                 return {
                     url: `category/update-category/${id}`,
@@ -24,8 +24,8 @@ const categoryApi = baseApi.injectEndpoints({
             },
             invalidatesTags: ['category']
         }),
-        // get category
-        getCategory: builder.query({
+        // get Banner
+        getBanner: builder.query({
             query: (page) => {
                 return {
                     url: `category?page=${page || 1}`,
@@ -35,8 +35,8 @@ const categoryApi = baseApi.injectEndpoints({
             providesTags: ['category']
         }),
 
-        // delete category
-        deleteCategory: builder.mutation({
+        // delete Banner
+        deleteBanner: builder.mutation({
             query: (id) => {
                 return {
                     url: `category/delete-category/${id}`,
@@ -49,12 +49,12 @@ const categoryApi = baseApi.injectEndpoints({
     })
 })
 export const {
-    // add category
-    useAddCategoryMutation,
+    // add Banner
+    useAddBannerMutation,
     // update category
-    useUpdateCategoryMutation,
-    // get category
-    useGetCategoryQuery,
-    // delete category 
-    useDeleteCategoryMutation
+    useUpdateBannerMutation,
+    // get Banner
+    useGetBannerQuery,
+    // delete Banner 
+    useDeleteBannerMutation
 } = categoryApi

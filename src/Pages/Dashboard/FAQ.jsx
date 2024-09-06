@@ -24,7 +24,7 @@ const FAQ = () => {
                 <span className='start-center gap-2 mt-1'>
                     <Button handler={() => {
                         toast.dismiss(t.id)
-                        deleteFaq(id)
+                        deleteFaq(id).unwrap().then((res) => toast.success(res?.message || 'Faq deleted successfully')).catch((err) => toast.error(err?.data?.message || 'something went wrong'))
                     }} icon={<MdDelete />} classNames={`button-red`} style={{
                         padding: '4px'
                     }} />
@@ -49,7 +49,7 @@ const FAQ = () => {
                     data?.data?.map((item, i) => {
                         return <div className='w-full h-full' key={i}>
                             <div className='start-center gap-2'>
-                                <p>Question</p> <Button handler={() => { toast.dismiss();deleteHandler(item?._id);  }} icon={<MdDelete />} classNames={`button-red`} style={{
+                                <p>Question</p> <Button handler={() => { toast.dismiss(); deleteHandler(item?._id); }} icon={<MdDelete />} classNames={`button-red`} style={{
                                     padding: '4px'
                                 }} />
                             </div>

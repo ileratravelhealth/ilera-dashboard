@@ -30,6 +30,7 @@ const ImageUpload = ({ accept, setFiles, Files, multiple, image }) => {
         e.preventDefault();
         setIsDragging(false);
     };
+    console.log(Files.length <= 0)
     return (
         <label
             onDrop={fileDrop}
@@ -39,11 +40,10 @@ const ImageUpload = ({ accept, setFiles, Files, multiple, image }) => {
             {
                 isDragging ? <p>drop here</p> : <div className=' w-full h-[250px] overflow-hidden center-center flex-col gap-4'>
                     {
-                        Files.length <= 0 && image ? <img className=' h-full w-full object-contain' src={`${url}/${image}`} /> : <p>Drop image file here to upload
-                            (or click)</p>
+                        Files.length <= 0 && !image && <p>Drop image file here to upload (or click)</p>
                     }
                     {
-                        Files.length > 0 ? <img src={URL.createObjectURL(Files[0])} className=' h-full w-full object-contain' alt="" /> : !image && <FaImage size={50} />
+                        Files.length > 0 ? <img src={URL.createObjectURL(Files[0])} className=' h-full w-full object-contain' alt="" /> : image ? <img className=' h-full w-full object-contain' src={`${url}/${image}`} /> : <FaImage size={50} />
                     }
                 </div>
             }
