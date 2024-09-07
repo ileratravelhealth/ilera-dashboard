@@ -9,14 +9,17 @@ import toast from 'react-hot-toast'
 import { makeFormData } from '../../Utils/makeFormData'
 import { useAddCategoryMutation, useUpdateCategoryMutation } from '../../Redux/Apis/categoryApi'
 import Loading from '../Shared/Loading'
+import { useAddBannerMutation, useUpdateBannerMutation } from '../../Redux/Apis/bannerApi'
 
-const Category_Banner_Form = ({ formFor, action, data, close_modal }) => {
+const Category_Banner_Form = ({ formFor, action, data, close_modal, Files, setFiles }) => {
     //states
-    const [Files, setFiles] = useState([])
     const [FormFields, setFormFields] = useState([])
     const [form] = Form.useForm()
+    //rtk query
     const [addCategory, { isLoading }] = useAddCategoryMutation()
     const [updateCategory, { isLoading: updateLoading }] = useUpdateCategoryMutation()
+    const [addBanner, { isLoading: bannerLoading }] = useAddBannerMutation()
+    const [updateBanner, { isLoading: updateBannerLoading }] = useUpdateBannerMutation()
     //handler
     const onFinish = value => {
         if (formFor === 'category') {
@@ -54,7 +57,40 @@ const Category_Banner_Form = ({ formFor, action, data, close_modal }) => {
                 }).catch((err) => toast.error(err.data?.message || 'something went wrong'))
             }
         } else {
-
+            if (Files.length <= 0) {
+                return
+            }
+            if (action === 'update') {
+                const FormateData = {
+                    img: Files[0]
+                }
+                // console.log(data)
+                // return
+                const FormData = makeFormData(FormateData)
+                updateBanner({ id: data?._id, data: FormData }).unwrap().then((res) => {
+                    if (res.success) {
+                        toast.success(res.message || 'Banner Updated Successfully')
+                        setFiles([])
+                        close_modal(false)
+                    } else {
+                        toast.error('something went wrong')
+                    }
+                }).catch((err) => toast.error(err.data?.message || 'something went wrong'))
+            } else {
+                const FormateData = {
+                    img: Files[0]
+                }
+                const FormData = makeFormData(FormateData)
+                addBanner(FormData).unwrap().then((res) => {
+                    if (res.success) {
+                        toast.success(res.message || 'Banner Added Successfully')
+                        setFiles([])
+                        close_modal(false)
+                    } else {
+                        toast.error('something went wrong')
+                    }
+                })
+            }
         }
     }
     // effects 
@@ -72,7 +108,7 @@ const Category_Banner_Form = ({ formFor, action, data, close_modal }) => {
     return (
         <div className='max-w-[600px]'>
             {
-                (isLoading || updateLoading) && <Loading />
+                (isLoading || updateLoading || bannerLoading || updateBannerLoading) && <Loading />
             }
             <p className='heading text-center my-2 capitalize'>{action} {formFor === 'category' ? 'Category' : 'Banner'} </p>
             <Form
@@ -92,7 +128,7 @@ const Category_Banner_Form = ({ formFor, action, data, close_modal }) => {
                         ]}
                     >
                         {
-                            item?.type === 'file' ? <ImageUpload accept={item?.accept || 'image'} image={data?.img} Files={Files} setFiles={setFiles} multiple={false} /> : <Input placeholder={item?.placeholder} />
+                            item?.type === 'file' ? <ImageUpload key={action} action={action} accept={item?.accept || 'image'} image={data?.img} Files={Files} setFiles={setFiles} multiple={false} /> : <Input placeholder={item?.placeholder} />
                         }
                     </Form.Item>)
                 }

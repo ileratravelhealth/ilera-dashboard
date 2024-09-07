@@ -3,14 +3,28 @@ import React, { useEffect, useState } from 'react'
 import { FaMinus, FaPlus } from 'react-icons/fa6';
 import { RxCross2 } from 'react-icons/rx';
 import { url } from '../../Utils/BaseUrl';
+import toast from 'react-hot-toast';
 
 
-const ChangeBannerOrder = ({ data }) => {
+const ChangeBannerOrder = ({ data, updateBannerOrder, closeModal }) => {
     const [formate_data, set_formate_data] = useState([])
     const [form] = Form.useForm()
     //handler
     const onFinish = (values) => {
-        console.log('Received values of form:', values);
+        const data = values?.orders?.map(item => {
+            return {
+                order: item?.order,
+                id: item?.id
+            }
+        })
+        updateBannerOrder(data).unwrap().then((res) => {
+            if (res?.success) {
+                toast.success(res.message || 'Banner order updated successfully')
+                closeModal()
+            } else {
+                toast.error(res.message || 'something went wrong')
+            }
+        }).catch((err) => toast.error(err?.data?.message || 'something went wrong'))
     };
 
     // const validateUnique = (rule, value) => {
@@ -30,8 +44,8 @@ const ChangeBannerOrder = ({ data }) => {
     useEffect(() => {
         const newData = data.map(item => {
             return {
-                image: item?.image,
-                id: `${item?.key}`,
+                image: item?.img,
+                id: `${item?._id}`,
                 order: item?.order
             }
         })

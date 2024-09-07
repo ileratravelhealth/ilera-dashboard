@@ -6,33 +6,43 @@ const categoryApi = baseApi.injectEndpoints({
         addBanner: builder.mutation({
             query: (data) => {
                 return {
-                    url: 'category/create-category',
+                    url: 'banner/create-banner',
                     method: 'POST',
                     body: data,
                 }
             },
-            invalidatesTags: ['category']
+            invalidatesTags: ['banner']
         }),
         // update Banner
         updateBanner: builder.mutation({
             query: ({ id, data }) => {
                 return {
-                    url: `category/update-category/${id}`,
+                    url: `banner/update-banner/${id}`,
                     method: 'PATCH',
                     body: data,
                 }
             },
-            invalidatesTags: ['category']
+            invalidatesTags: ['banner']
+        }),
+        // update active status
+        updateBannerStatus: builder.mutation({
+            query: (id) => {
+                return {
+                    url: `banner/activate-deactivate-banner/${id}`,
+                    method: 'POST',
+                }
+            },
+            invalidatesTags: ['banner']
         }),
         // get Banner
         getBanner: builder.query({
             query: (page) => {
                 return {
-                    url: `category?page=${page || 1}`,
+                    url: `banner/get-banners?page=${page || 1}`,
                     method: 'GET',
                 }
             },
-            providesTags: ['category']
+            providesTags: ['banner']
         }),
 
         // delete Banner
@@ -43,9 +53,19 @@ const categoryApi = baseApi.injectEndpoints({
                     method: 'DELETE',
                 }
             },
-            invalidatesTags: ['category']
+            invalidatesTags: ['banner']
         }),
-
+        // update Banner
+        updateBannerOrder: builder.mutation({
+            query: (data) => {
+                return {
+                    url: 'banner/update-banner-order',
+                    method: 'PATCH',
+                    body: data
+                }
+            },
+            invalidatesTags: ['banner']
+        })
     })
 })
 export const {
@@ -56,5 +76,9 @@ export const {
     // get Banner
     useGetBannerQuery,
     // delete Banner 
-    useDeleteBannerMutation
+    useDeleteBannerMutation,
+    // update active status
+    useUpdateBannerStatusMutation,
+    // update Banner
+    useUpdateBannerOrderMutation
 } = categoryApi

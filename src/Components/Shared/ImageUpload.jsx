@@ -30,7 +30,6 @@ const ImageUpload = ({ accept, setFiles, Files, multiple, image }) => {
         e.preventDefault();
         setIsDragging(false);
     };
-    console.log(Files.length <= 0)
     return (
         <label
             onDrop={fileDrop}

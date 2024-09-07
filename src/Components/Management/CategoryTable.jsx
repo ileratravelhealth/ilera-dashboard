@@ -9,14 +9,9 @@ import toast from 'react-hot-toast'
 import Button from '../Shared/Button'
 
 
-const CategoryTable = () => {
-    const [open_category_banner_modal, set_open_category_banner_modal] = useState(false)
+const CategoryTable = ({ set_selected_data, set_open_category_banner_modal, setAction }) => {
     // states
     const [page, setPage] = useState(new URLSearchParams(location.search).get('page') || 1)
-    const meta = {
-        limit: 10, total: 30
-    }
-    const [selected_data, set_selected_data] = useState({})
     // rtk query
     const { data, isLoading, isError, error } = useGetCategoryQuery(page)
     const [deleteCategory, { isLoading: isDeleting }] = useDeleteCategoryMutation()
@@ -63,6 +58,7 @@ const CategoryTable = () => {
             render: (_, record) => <div className='start-center gap-3 w-fit'>
                 <button onClick={() => {
                     set_selected_data(record)
+                    setAction('update')
                     set_open_category_banner_modal(true)
                 }} style={{
                     padding: '10px'
@@ -89,14 +85,6 @@ const CategoryTable = () => {
             {
                 isDeleting && <Loading />
             }
-            <Modal
-                open={open_category_banner_modal}
-                onCancel={() => set_open_category_banner_modal(false)}
-                centered
-                footer={false}
-            >
-                <Category_Banner_Form formFor={'category'} action={'update'} data={selected_data} close_modal={set_open_category_banner_modal} />
-            </Modal>
         </>
     )
 }

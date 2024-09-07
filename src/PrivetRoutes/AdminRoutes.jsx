@@ -6,7 +6,6 @@ import { Navigate, useLocation } from 'react-router-dom'
 
 const AdminRoutes = ({ children }) => {
     const { data, isLoading, isError, error, isFetching } = useGetProfileQuery()
-    console.log(data)
     const location = useLocation()
     if (isLoading || isFetching) return <Loading />
     if (isError) {

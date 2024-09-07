@@ -6,14 +6,17 @@ import './index.css'
 import { Provider } from 'react-redux'
 import { store } from './Redux/Store'
 import { Toaster } from 'react-hot-toast'
+import SocketContext from './Context/SocketContext'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
-      <RouterProvider router={Routes} />
-      <Toaster
-        position="top-center"
-      />
+      <SocketContext>
+        <RouterProvider router={Routes} />
+        <Toaster
+          position="top-center"
+        />
+      </SocketContext>
     </Provider>
   </StrictMode>,
 )

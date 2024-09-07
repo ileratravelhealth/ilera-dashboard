@@ -27,6 +27,7 @@ const Login = () => {
             }
             localStorage.setItem('token', JSON.stringify(res?.token))
             toast.success(res.data?.message || 'logged in successfully')
+            window.location.reload()
             return navigate(location?.state || '/')
         })
             .catch((err) => toast.error(err.data.message || 'something went wrong'))
