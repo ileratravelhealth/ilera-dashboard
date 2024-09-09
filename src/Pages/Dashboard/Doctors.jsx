@@ -1,9 +1,15 @@
 import React, { useState } from 'react'
 import PageHeading from '../../Components/Shared/PageHeading'
-import { Table } from 'antd'
+import { Modal, Table } from 'antd'
 import UserImageName from '../../Components/Shared/UserImageName'
-import { MdBlockFlipped } from 'react-icons/md'
+import { MdBlock, MdBlockFlipped, MdDelete } from 'react-icons/md'
 import Search from '../../Components/Shared/Search'
+import { useGetAllDoctorQuery } from '../../Redux/Apis/doctorsApi'
+import Loading from '../../Components/Shared/Loading'
+import { FcApprove } from 'react-icons/fc'
+import { CgUnblock } from 'react-icons/cg'
+import ApproveModal from '../../Components/Doctors/ApproveModal'
+import DeleteModal from '../../Components/Doctors/DeleteModal'
 const data = [
     {
         "key": 1,
@@ -122,30 +128,32 @@ const data = [
 const Doctors = () => {
     // states
     const [page, setPage] = useState(new URLSearchParams(location.search).get('page') || 1)
-    const meta = {
-        limit: 10, total: 30
-    }
+    const [approve_modal, set_approve_modal] = useState(false)
+    const [delete_modal, set_delete_modal] = useState(false)
+    const [selected_doctor, set_selected_doctor] = useState({})
+    const [Field, setField] = useState('')
+    // rtk query
+    const { data, isLoading } = useGetAllDoctorQuery({ page })
     // handler
     const onSearch = value => {
-
     }
     // table columns
     const columns = [
-        {
-            title: '#Sl',
-            dataIndex: 'key',
-            key: 'key'
-        },
+        // {
+        //     title: '#Sl',
+        //     dataIndex: 'key',
+        //     key: 'key'
+        // },
         {
             title: 'Doctor’s Name',
             dataIndex: 'name',
             key: 'name',
-            render: (_, record) => <UserImageName name={record?.name} image={record?.image} />
+            render: (_, record) => <UserImageName name={record?.name} image={record?.img} />
         },
         {
             title: 'Doctor Type',
-            dataIndex: 'doctor_type',
-            key: 'doctor_type',
+            dataIndex: 'specialization',
+            key: 'specialization',
         },
         {
             title: 'Email',
@@ -154,8 +162,8 @@ const Doctors = () => {
         },
         {
             title: 'Contact Number',
-            dataIndex: 'number',
-            key: 'number',
+            dataIndex: 'phone',
+            key: 'phone',
         },
         {
             title: 'Location',
@@ -166,26 +174,98 @@ const Doctors = () => {
             title: 'Appointment Fee',
             dataIndex: 'appointment_fee',
             key: 'appointment_fee ',
+            render: (_) => <p>${_}</p>
         },
         {
             title: 'Total Booking',
             dataIndex: 'total_booking',
             key: 'total_booking ',
         },
+        {
+            title: 'Approved status',
+            dataIndex: 'approved',
+            key: 'approved ',
+            render: (_) => <p className='button-green'>{_ ? 'Approved' : 'Pending'}</p>
+        },
+        {
+            title: 'Action',
+            dataIndex: '_id',
+            key: '_id',
+            render: (_, record) => <div>
+                {
+                    record?.approved ? <div className='start-center gap-2'>
+                        <button onClick={() => {
+                            setField('block')
+                            set_selected_doctor({ _id: record?._id, license: record?.license, name: record?.name, block: record?.block, license_no: record?.license_no })
+                            set_approve_modal(true)
+                        }}
+                            style={{
+                                padding: '4px',
+                                fontSize: '20px',
+                                borderRadius: '6px',
+                            }} className={`${record?.block ? 'button-green' : 'button-red '}`}>
+                            {
+                                record?.block ? <CgUnblock /> : <MdBlock />
+                            }
+                        </button>
+                    </div> : <div className='start-center gap-2'>
+                        <button onClick={() => {
+                            setField('approved')
+                            set_selected_doctor({ _id: record?._id, license: record?.license, name: record?.name, block: record?.block, license_no: record?.license_no })
+                            set_approve_modal(true)
+                        }} style={{
+                            padding: '4px',
+                            fontSize: '20px',
+                            borderRadius: '6px',
+                        }} className='button-green'>
+                            <FcApprove />
+                        </button>
+                        <button onClick={() => {
+                            set_selected_doctor({ _id: record?._id, license: record?.license, name: record?.name, block: record?.block, license_no: record?.license_no })
+                            set_delete_modal(true)
+                        }} style={{
+                            padding: '4px',
+                            fontSize: '20px',
+                        }} className='button-red'>
+                            <MdDelete />
+                        </button>
+                    </div>
+                }
+            </div>
+        }
     ]
     return (
         <div className='bg-[var(--bg-white)] p-4 rounded-md'>
+            {
+                isLoading && <Loading />
+            }
             <div className='between-center'>
                 <PageHeading text={`Doctors`} />
                 <Search handler={onSearch} />
             </div>
-            <Table dataSource={data} columns={columns} pagination={{
-                pageSize: meta.limit || 10,
-                total: meta?.total || 0,
+            <Table dataSource={data?.data || []} columns={columns} pagination={{
+                pageSize: data?.pagination?.itemsPerPage || 10,
+                total: data?.pagination?.totalItems || 0,
                 current: page || 1,
                 onChange: (page) => setPage(page),
                 showSizeChanger: false
             }} />
+            <Modal
+                centered
+                footer={false}
+                open={approve_modal}
+                onCancel={() => set_approve_modal(false)}
+            >
+                <ApproveModal field={Field} selected_doctor={selected_doctor} set_selected_doctor={set_selected_doctor} set_approve_modal={set_approve_modal} />
+            </Modal>
+            <Modal
+                centered
+                footer={false}
+                open={delete_modal}
+                onCancel={() => set_delete_modal(false)}
+            >
+                <DeleteModal selected_doctor={selected_doctor} set_delete_modal={set_delete_modal} set_selected_doctor={set_selected_doctor} />
+            </Modal>
         </div>
     )
 }

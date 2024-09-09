@@ -9,6 +9,7 @@ const AdminRoutes = ({ children }) => {
     const location = useLocation()
     if (isLoading || isFetching) return <Loading />
     if (isError) {
+        toast.dismiss()
         toast.error(error?.data?.message || 'something went wrong please login Again')
         return <Navigate to={`/login`} state={location.pathname} ></Navigate>
     }

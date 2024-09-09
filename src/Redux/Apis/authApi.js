@@ -85,9 +85,15 @@ const authApi = baseApi.injectEndpoints({
         // get profile 
         getProfile: builder.query({
             query: () => {
-                return {
-                    url: 'auth/profile',
-                    method: 'GET',
+                const token = localStorage.getItem('token');
+                if (token) {
+                    return {
+                        url: 'auth/profile',
+                        method: 'GET',
+                    };
+                } else {
+                    console.log('No token found, API not called.');
+                    return null;
                 }
             }
         })
