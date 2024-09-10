@@ -5,8 +5,8 @@ const doctorApis = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         // get all doctor
         getAllDoctor: builder.query({
-            query: (params) => ({
-                url: `doctors?page=${params.page || 1}`,
+            query: ({ page, filter }) => ({
+                url: `doctors?page=${page || 1}${filter?.block ? `&block=${filter?.block}` : ''}${filter?.search ? `&search=${filter?.search}` : ''}${filter?.approved ? `&approved=${filter?.approved}` : ''}`,
                 method: 'GET',
             }),
             providesTags: ['doctor']

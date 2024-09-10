@@ -10,12 +10,18 @@ import {
 } from 'chart.js';
 import ChartsHeading from './ChartsHeading';
 import { Select } from 'antd';
+import { useGetIncomeOverviewQuery } from '../../Redux/Apis/dashboardApi';
+import Loading from '../Shared/Loading';
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Filler);
 
 const IncomeOverView = () => {
     // states 
     const [year, setYear] = useState(new Date().getFullYear())
+    // rtk query 
+    const { data: income, isLoading } = useGetIncomeOverviewQuery(year)
+    console.log(income?.data)
+    const { January, February, March, April, May, June, July, August, September, October, November, December } = income?.data?.monthlyData
     // chart
     const canvasRef = React.useRef(null);
     const data = {
@@ -23,7 +29,7 @@ const IncomeOverView = () => {
         datasets: [
             {
                 label: 'Monthly Data',
-                data: [80, 60, 90, 70, 50, 85, 65, 75, 85, 60, 80, 90],
+                data: [January || 0, February || 0, March || 0, April || 0, May || 0, June || 0, July || 0, August || 0, September || 0, October || 0, November || 0, December || 0],
                 borderColor: '#007bff',
                 borderWidth: 2,
                 fill: true,
@@ -86,41 +92,27 @@ const IncomeOverView = () => {
     //data
     const growthData = [
         {
-            name: 'Overly Growth',
-            total: '35.80%'
+            name: 'Yearly Growth',
+            total: `${income?.data?.yearlyComparison}%`
         },
         {
             name: 'Monthly',
-            total: '15.80%'
+            total: `${income?.data?.monthlyComparison}%`
         },
         {
             name: 'Day',
-            total: '55.80%'
+            total: `${income?.data?.dailyComparison}%`
         },
     ]
     //handler
     return (//showSearch onSearch={(e)=>console.log(e)}
         <div className='w-full h-full bg-[var(--bg-white)] rounded-md p-4'>
+            {
+                isLoading && <Loading />
+            }
             <div className='between-center mb-6'>
                 <ChartsHeading heading={`Income Overview`} growthData={growthData} />
-                <Select className='min-w-32' placeholder='select year' onChange={(year) => setYear(year)} options={[
-                    {
-                        label: '2024',
-                        value: '2024'
-                    },
-                    {
-                        label: '2025',
-                        value: '2025'
-                    },
-                    {
-                        label: '2026',
-                        value: '2026'
-                    },
-                    {
-                        label: '2027',
-                        value: '2027'
-                    },
-                ]} />
+                <Select className='min-w-32' defaultValue={income?.data?.currentYear} placeholder='select year' onChange={(year) => setYear(year)} options={income?.data?.total_years.map((item) => ({ value: item, label: item }))} />
             </div>
             <div className='h-[300px]'>
                 <Line ref={canvasRef} data={data} options={options} />

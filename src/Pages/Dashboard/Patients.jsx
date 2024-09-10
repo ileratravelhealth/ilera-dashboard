@@ -1,120 +1,51 @@
 import React, { useState } from 'react'
 import PageHeading from '../../Components/Shared/PageHeading'
-import { Table } from 'antd'
+import { Modal, Select, Table } from 'antd'
 import UserImageName from '../../Components/Shared/UserImageName'
-import { MdBlockFlipped } from 'react-icons/md'
+import { MdBlock, MdBlockFlipped } from 'react-icons/md'
 import Search from '../../Components/Shared/Search'
-import { CiSearch } from 'react-icons/ci'
-const data = [
-    {
-        "key": 2,
-        "name": "Alice Johnson",
-        "age": 29,
-        "email": "alice.johnson@example.com",
-        "number": "(202) 555-0134",
-        "total_booking": 15,
-        "image": "KG9Yn7J/one-piece-zoro-in-wano-arc.jpg"
-    },
-    {
-        "key": 3,
-        "name": "Michael Smith",
-        "age": 34,
-        "email": "michael.smith@example.com",
-        "number": "(203) 555-0145",
-        "total_booking": 18,
-        "image": "KG9Yn7J/one-piece-zoro-in-wano-arc.jpg"
-    },
-    {
-        "key": 4,
-        "name": "Emily Davis",
-        "age": 27,
-        "email": "emily.davis@example.com",
-        "number": "(204) 555-0156",
-        "total_booking": 22,
-        "image": "KG9Yn7J/one-piece-zoro-in-wano-arc.jpg"
-    },
-    {
-        "key": 5,
-        "name": "John Doe",
-        "age": 31,
-        "email": "john.doe@example.com",
-        "number": "(205) 555-0167",
-        "total_booking": 20,
-        "image": "KG9Yn7J/one-piece-zoro-in-wano-arc.jpg"
-    },
-    {
-        "key": 6,
-        "name": "Sophia Brown",
-        "age": 28,
-        "email": "sophia.brown@example.com",
-        "number": "(206) 555-0178",
-        "total_booking": 19,
-        "image": "KG9Yn7J/one-piece-zoro-in-wano-arc.jpg"
-    },
-    {
-        "key": 7,
-        "name": "Daniel Martinez",
-        "age": 40,
-        "email": "daniel.martinez@example.com",
-        "number": "(207) 555-0189",
-        "total_booking": 25,
-        "image": "KG9Yn7J/one-piece-zoro-in-wano-arc.jpg"
-    },
-    {
-        "key": 8,
-        "name": "Olivia Wilson",
-        "age": 33,
-        "email": "olivia.wilson@example.com",
-        "number": "(208) 555-0190",
-        "total_booking": 17,
-        "image": "KG9Yn7J/one-piece-zoro-in-wano-arc.jpg"
-    },
-    {
-        "key": 9,
-        "name": "James Clark",
-        "age": 25,
-        "email": "james.clark@example.com",
-        "number": "(209) 555-0201",
-        "total_booking": 21,
-        "image": "KG9Yn7J/one-piece-zoro-in-wano-arc.jpg"
-    },
-    {
-        "key": 10,
-        "name": "Ava Lewis",
-        "age": 30,
-        "email": "ava.lewis@example.com",
-        "number": "(210) 555-0212",
-        "total_booking": 16,
-        "image": "KG9Yn7J/one-piece-zoro-in-wano-arc.jpg"
-    },
-    {
-        "key": 11,
-        "name": "William Johnson",
-        "age": 35,
-        "email": "william.johnson@example.com",
-        "number": "(211) 555-0223",
-        "total_booking": 23,
-        "image": "KG9Yn7J/one-piece-zoro-in-wano-arc.jpg"
-    }
-]
+import { useBlockUserMutation, useGetAllUserQuery } from '../../Redux/Apis/usersApi'
+import Loading from '../../Components/Shared/Loading'
+import { CgUnblock } from 'react-icons/cg'
+import toast from 'react-hot-toast'
+
 
 const Patients = () => {
     // states
     const [page, setPage] = useState(new URLSearchParams(location.search).get('page') || 1)
-    const meta = {
-        limit: 10, total: 30
-    }
+    const [selected_user, set_selected_user] = useState({})
+    const [block_modal, set_block_modal] = useState(false)
+    // query filters
+    const [filter, setFilter] = useState({ search: '' })
+    // rtk query
+    const { data, isLoading } = useGetAllUserQuery({ page, filter })
+    const [blackUser, { isLoading: updateLoading }] = useBlockUserMutation()
     // handler
-    const onSearch = value=>{
-
+    const onSearch = value => {
+        setFilter({ ...filter, search: value })
+    }
+    const onEmailSearch = value => {
+        setFilter({ ...filter, email: value })
+    }
+    // handle block user
+    const handlerBlockDoctor = () => {
+        blackUser(selected_user?._id).unwrap().then((res) => {
+            if (res.success) {
+                set_block_modal(false)
+                set_selected_user({})
+                toast.success(res.message || 'User Blocked successfully')
+            } else {
+                toast.error(res.message || 'something went wrong')
+            }
+        }).catch((err) => toast.error(err?.data?.message || 'something went wrong'))
     }
     // table columns
     const columns = [
-        {
-            title: '#Sl',
-            dataIndex: 'key',
-            key: 'key'
-        },
+        // {
+        //     title: '#Sl',
+        //     dataIndex: 'key',
+        //     key: 'key'
+        // },
         {
             title: 'Name',
             dataIndex: 'name',
@@ -125,6 +56,7 @@ const Patients = () => {
             title: 'Patient Age',
             dataIndex: 'age',
             key: 'age',
+            render: (_, record) => <p>{_ <= 0 ? '1' : _}</p>
         },
         {
             title: 'Email',
@@ -133,36 +65,84 @@ const Patients = () => {
         },
         {
             title: 'Contact Number',
-            dataIndex: 'number',
-            key: 'number',
+            dataIndex: 'phone',
+            key: 'phone',
         },
         {
             title: 'Total Booking',
-            dataIndex: 'total_booking',
-            key: 'total_booking',
+            dataIndex: 'total_appointments',
+            key: 'total_appointments',
         },
         {
             title: 'actions',
             dataIndex: 'key',
             key: 'key ',
-            render: (_, record) => <button>
-                <MdBlockFlipped size={24} />
+            render: (_, record) => <button onClick={() => {
+                set_selected_user({ _id: record?._id, license: record?.license, name: record?.name, block: record?.block })
+                set_block_modal(true)
+            }}
+                style={{
+                    padding: '4px',
+                    fontSize: '20px',
+                    borderRadius: '6px',
+                }} className={`${record?.block ? 'button-green' : 'button-red '}`}>
+                {
+                    record?.block ? <CgUnblock /> : <MdBlock />
+                }
             </button>
         },
     ]
     return (
         <div className='bg-[var(--bg-white)] p-4 rounded-md'>
+            {
+                (isLoading || updateLoading) && <Loading />
+            }
             <div className='between-center'>
-                <PageHeading text={`Transactions`} />
-                <Search handler={onSearch} />
+                <PageHeading text={`Patients`} />
+                <div className='end-center gap-3'>
+                    <Search placeholder='Search by Email...' handler={onEmailSearch} />
+                    <Search handler={onSearch} />
+                </div>
             </div>
-            <Table dataSource={data} columns={columns} pagination={{
-                pageSize: meta.limit || 10,
-                total: meta?.total || 0,
-                current: page || 1,
-                onChange: (page) => setPage(page),
-                showSizeChanger: false
-            }} />
+            <div id='doctor_table' className='w-full overflow-x-auto'>
+                <Table dataSource={data?.data || []} columns={columns} pagination={{
+                    pageSize: data?.pagination?.itemsPerPage || 10,
+                    total: data?.pagination?.totalItems || 0,
+                    current: page || 1,
+                    onChange: (page) => setPage(page),
+                    showSizeChanger: false
+                }} />
+            </div>
+            <Modal
+                centered
+                footer={false}
+                open={block_modal}
+                onCancel={() => { set_block_modal(false); set_selected_user({}) }}
+            >
+                <div>
+                    <p className='heading text-center my-5 capitalize'>
+                        {
+                            `are you sure wants to ${selected_user?.block ? 'Unblock' : 'Block'}  ${selected_user?.name}`
+                        }
+                    </p>
+                    <div className='center-center gap-6'>
+                        <button onClick={() => handlerBlockDoctor()} className='button-black' type='submit'>
+                            {
+                                selected_user?.block ? <CgUnblock size={24} /> :
+                                    <MdBlock size={24} />}{
+                                selected_user?.block ? 'Unblock' : 'Block'}
+                        </button>
+                        <button onClick={() => {
+                            set_block_modal(false);
+                            set_selected_user({})
+                        }} className='button-red' type='button'>
+                            {
+                                selected_user?.block ? <MdBlock size={24} /> :
+                                    <CgUnblock size={24} />} Cancel
+                        </button>
+                    </div>
+                </div>
+            </Modal>
         </div>
     )
 }

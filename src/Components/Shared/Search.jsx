@@ -7,7 +7,7 @@ const Search = ({ placeholder, handler, icon }) => {
     const [form] = Form.useForm()
     useEffect(() => {
         form.setFieldsValue({})
-    },[])
+    }, [])
     return (
         <Form
             form={form}
@@ -15,11 +15,15 @@ const Search = ({ placeholder, handler, icon }) => {
             <Form.Item
                 name={`search`}
             >
-                <Input onChange={(value) => {
+                <Input onChange={(e) => {
                     if (handler) {
-                        handler(value)
+                        handler(e.target.value)
                     }
-                }} prefix={icon ? icon : <CiSearch />} suffix={<button type='button'><RxCross2 className='cursor-pointer' onClick={() => form.resetFields()} /></button>} placeholder={placeholder ? placeholder : 'search here ...'} />
+                }} prefix={icon ? icon : <CiSearch />} suffix={<button type='button'><RxCross2 className='cursor-pointer' onClick={() => {
+                    handler('')
+                    form.resetFields()
+
+                }} /></button>} placeholder={placeholder ? placeholder : 'search here ...'} />
             </Form.Item>
         </Form>
     )

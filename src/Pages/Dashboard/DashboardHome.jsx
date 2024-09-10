@@ -7,34 +7,42 @@ import IncomeOverView from '../../Components/Dashboard/IncomeOverView'
 import AppointmentsOverview from '../../Components/Dashboard/AppointmentsOverview'
 import { Link } from 'react-router-dom'
 import NewAppointment from '../../Components/Dashboard/NewAppointment'
-const data = [
-    {
-        name: 'Total Income',
-        icon: <GrMoney size={36} />,
-        total: '$8250'
-    },
-    {
-        name: 'Total Doctor',
-        icon: <FaUserDoctor size={36} />,
-        total: '650'
-    },
-    {
-        name: 'Total Patient',
-        icon: <FaCircleUser size={36} />,
-        total: '852,650'
-    },
-    {
-        name: 'Total Appointment',
-        icon: <SlCalender size={36} />,
-        total: '852'
-    },
-]
+import { useGetDashboardDataQuery } from '../../Redux/Apis/dashboardApi'
+import Loading from '../../Components/Shared/Loading'
+
 const DashboardHome = () => {
+    const { data, isLoading } = useGetDashboardDataQuery()
+    const { pending, accepted, rejected, completed } = data?.data?.total_appointment
+    const formatData = [
+        {
+            name: 'Total Income',
+            icon: <GrMoney size={36} />,
+            total: `$${data?.data?.total_deduction.toFixed(2) || 0}`
+        },
+        {
+            name: 'Total Doctor',
+            icon: <FaUserDoctor size={36} />,
+            total: data?.data?.total_doctor || 0
+        },
+        {
+            name: 'Total Patient',
+            icon: <FaCircleUser size={36} />,
+            total: data?.data?.total_user || 0
+        },
+        {
+            name: 'Total Appointment',
+            icon: <SlCalender size={36} />,
+            total: pending + accepted + rejected + completed || 0
+        },
+    ]
     return (
         <div className='bg-[var(--bg-gray-20)] p-4 rounded-md'>
+            {
+                isLoading && <Loading />
+            }
             <div className='grid-4 gap-3'>
                 {
-                    data?.map((item, i) => <div key={i} className='w-full h-full rounded-md p-4 py-6 bg-[var(--bg-white)]'>
+                    formatData?.map((item, i) => <div key={i} className='w-full h-full rounded-md p-4 py-6 bg-[var(--bg-white)]'>
                         <IncomeCard item={item} />
                     </div>)
                 }

@@ -26,6 +26,13 @@
   display: none;
 }
 
+#doctor_table::-webkit-scrollbar {
+  display: block;
+  background: var(--text);
+  height: 4px;
+  border-radius: 3px;
+}
+
 body {
   background: #363636;
 }

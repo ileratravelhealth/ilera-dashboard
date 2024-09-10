@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PageHeading from '../../Components/Shared/PageHeading'
-import { Modal, Table } from 'antd'
+import { Modal, Select, Table } from 'antd'
 import UserImageName from '../../Components/Shared/UserImageName'
 import { MdBlock, MdBlockFlipped, MdDelete } from 'react-icons/md'
 import Search from '../../Components/Shared/Search'
@@ -132,10 +132,13 @@ const Doctors = () => {
     const [delete_modal, set_delete_modal] = useState(false)
     const [selected_doctor, set_selected_doctor] = useState({})
     const [Field, setField] = useState('')
+    // query filters
+    const [filter, setFilter] = useState({ search: '' })
     // rtk query
-    const { data, isLoading } = useGetAllDoctorQuery({ page })
+    const { data, isLoading } = useGetAllDoctorQuery({ page, filter })
     // handler
     const onSearch = value => {
+        setFilter({ ...filter, search: value })
     }
     // table columns
     const columns = [
@@ -241,15 +244,41 @@ const Doctors = () => {
             }
             <div className='between-center'>
                 <PageHeading text={`Doctors`} />
-                <Search handler={onSearch} />
+                <div className='end-center gap-3'>
+                    <Select onChange={value => {
+                        value === 'approved' ? setFilter({ ...filter, approved: true }) : setFilter({ ...filter, approved: false })
+                        if (value === 'all') {
+                            const { approved, ...filterOptions } = filter;
+                            setFilter({ ...filterOptions });
+                        }
+                    }} className='-mt-5 min-w-44' placeholder='All' options={[
+                        { value: 'all', label: 'All' },
+                        { value: 'approved', label: 'Approved' },
+                        { value: 'disapproved', label: 'Disapproved' },
+                    ]} />
+                    <Select onChange={value => {
+                        value === 'blocked' ? setFilter({ ...filter, block: true }) : setFilter({ ...filter, block: false })
+                        if (value === 'all') {
+                            const { block, ...filterOptions } = filter;
+                            setFilter({ ...filterOptions });
+                        }
+                    }} className='-mt-5 min-w-44' placeholder='All' options={[
+                        { value: 'all', label: 'All' },
+                        { value: 'blocked', label: 'Blocked' },
+                        { value: 'unblocked', label: 'unblocked' },
+                    ]} />
+                    <Search handler={onSearch} />
+                </div>
             </div>
-            <Table dataSource={data?.data || []} columns={columns} pagination={{
-                pageSize: data?.pagination?.itemsPerPage || 10,
-                total: data?.pagination?.totalItems || 0,
-                current: page || 1,
-                onChange: (page) => setPage(page),
-                showSizeChanger: false
-            }} />
+            <div id='doctor_table' className='w-full overflow-x-auto'>
+                <Table dataSource={data?.data || []} columns={columns} pagination={{
+                    pageSize: data?.pagination?.itemsPerPage || 10,
+                    total: data?.pagination?.totalItems || 0,
+                    current: page || 1,
+                    onChange: (page) => setPage(page),
+                    showSizeChanger: false
+                }} />
+            </div>
             <Modal
                 centered
                 footer={false}
