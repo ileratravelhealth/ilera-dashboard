@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import  { Suspense } from 'react'
 import { FaCircleUser, FaUserDoctor } from 'react-icons/fa6'
 import { GrMoney } from 'react-icons/gr'
 import { SlCalender } from 'react-icons/sl'
@@ -12,7 +12,7 @@ import Loading from '../../Components/Shared/Loading'
 
 const DashboardHome = () => {
     const { data, isLoading } = useGetDashboardDataQuery()
-    const { pending, accepted, rejected, completed } = data?.data?.total_appointment
+    const { pending, accepted, rejected, completed } = data?.data?.total_appointment || {}
     const formatData = [
         {
             name: 'Total Income',

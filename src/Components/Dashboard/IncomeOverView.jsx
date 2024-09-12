@@ -20,8 +20,8 @@ const IncomeOverView = () => {
     const [year, setYear] = useState(new Date().getFullYear())
     // rtk query 
     const { data: income, isLoading } = useGetIncomeOverviewQuery(year)
-    console.log(income?.data)
-    const { January, February, March, April, May, June, July, August, September, October, November, December } = income?.data?.monthlyData
+
+    const { January, February, March, April, May, June, July, August, September, October, November, December } = income?.data?.monthlyData || {}
     // chart
     const canvasRef = React.useRef(null);
     const data = {

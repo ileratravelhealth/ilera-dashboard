@@ -10,17 +10,21 @@ import {
 ChartJS.register(BarElement, CategoryScale, LinearScale);
 import ChartsHeading from './ChartsHeading'
 import { Select } from 'antd'
+import { useGetAppointmentOverviewQuery } from '../../Redux/Apis/dashboardApi';
 
 const AppointmentsOverview = () => {
     // states 
     const [year, setYear] = useState(new Date().getFullYear())
+    // rtk query 
+    const { data: appointment } = useGetAppointmentOverviewQuery(year)
+    const { January, February, March, April, May, June, July, August, September, October, November, December } = appointment?.data?.monthlyData || {}
     // chart 
     const data = {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         datasets: [
             {
                 label: 'Monthly Data',
-                data: [1000, 800, 600, 400, 500, 700, 900, 600, 700, 800, 700, 750],
+                data: [January || 0, February || 0, March || 0, April || 0, May || 0, June || 0, July || 0, August || 0, September || 0, October || 0, November || 0, December || 0],
                 backgroundColor: '#007bff',
                 borderRadius: 5,
             },
@@ -56,40 +60,23 @@ const AppointmentsOverview = () => {
     //data
     const growthData = [
         {
-            name: 'Overly Growth',
-            total: '35.80%'
+            name: 'Yearly Growth',
+            total: `${appointment?.data?.yearlyComparison}%`
         },
         {
             name: 'Monthly',
-            total: '15.80%'
+            total: `${appointment?.data?.monthlyComparison}%`
         },
         {
             name: 'Day',
-            total: '55.80%'
+            total: `${appointment?.data?.dailyComparison}%`
         },
     ]
     return (
         <div className='w-full h-full bg-[var(--bg-white)] rounded-md p-4'>
             <div className='between-center mb-6'>
                 <ChartsHeading heading={`Appointments Overview`} growthData={growthData} />
-                <Select className='min-w-32' placeholder='select year' onChange={(year) => setYear(year)} options={[
-                    {
-                        label: '2024',
-                        value: '2024'
-                    },
-                    {
-                        label: '2025',
-                        value: '2025'
-                    },
-                    {
-                        label: '2026',
-                        value: '2026'
-                    },
-                    {
-                        label: '2027',
-                        value: '2027'
-                    },
-                ]} />
+                <Select defaultValue={appointment?.data?.currentYear} className='min-w-32' placeholder='select year' onChange={(year) => setYear(year)} options={appointment?.data?.total_years.map((item) => ({ value: item, label: item }))} />
             </div>
             <div className='h-[300px]'>
                 <Bar data={data} options={options} />
