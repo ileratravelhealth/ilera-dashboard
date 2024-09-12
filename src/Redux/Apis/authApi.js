@@ -95,7 +95,8 @@ const authApi = baseApi.injectEndpoints({
                     console.log('No token found, API not called.');
                     return null;
                 }
-            }
+            },
+            providesTags: ['auth'],
         })
     })
 })

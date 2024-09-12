@@ -21,6 +21,7 @@ const ResetPassword = () => {
         resetPassword(value).unwrap().then((res) => {
             if (res?.success) {
                 localStorage.removeItem('accessToken')
+                localStorage.removeItem('email')
                 toast.success(res.message || 'password Reset successfully please login')
                 return navigate('/login')
             } else {

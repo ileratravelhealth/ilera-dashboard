@@ -1,4 +1,4 @@
-import  { Suspense } from 'react'
+import { Suspense } from 'react'
 import { FaCircleUser, FaUserDoctor } from 'react-icons/fa6'
 import { GrMoney } from 'react-icons/gr'
 import { SlCalender } from 'react-icons/sl'
@@ -12,6 +12,7 @@ import Loading from '../../Components/Shared/Loading'
 
 const DashboardHome = () => {
     const { data, isLoading } = useGetDashboardDataQuery()
+
     const { pending, accepted, rejected, completed } = data?.data?.total_appointment || {}
     const formatData = [
         {
@@ -56,9 +57,9 @@ const DashboardHome = () => {
                 </Suspense>
             </div>
             <div className='bg-[var(--bg-white)] p-4 rounded-md mt-5'>
-                <div className='between-center'>
+                <div className='between-center mb-3'>
                     <p className='heading'>New Appointment</p>
-                    <Link to={`/appointment`}>
+                    <Link className='text-[var(--color-blue)]' to={`/appointment`}>
                         View all
                     </Link>
                 </div>

@@ -1,5 +1,5 @@
 import { Form, Input } from 'antd'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { UpdateProfileFields } from '../../Utils/FormFields/UpdateProfile'
 import Button from '../Shared/Button'
 import { makeFormData } from '../../Utils/makeFormData'
@@ -13,7 +13,6 @@ const UpdateProfileForm = ({ image, data }) => {
     const [updateProfile, { isLoading }] = useUpdateUserMutation()
     //handler
     const onUpdateProfile = values => {
-        console.log(values)
         if (image) {
             values.img = image
         }
@@ -56,7 +55,7 @@ const UpdateProfileForm = ({ image, data }) => {
                             }
                         ]}
                     >
-                        <Input className='input' type={item?.type} placeholder={item?.placeholder} />
+                        <Input className={`input ${item?.name === 'email' ? 'pointer-events-none' : ''}`} type={item?.type} placeholder={item?.placeholder} />
                     </Form.Item>
                 })
             }

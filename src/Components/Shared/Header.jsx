@@ -5,14 +5,17 @@ import profile from '../../assets/icons/itachi.jpg'
 import { useNavigate } from 'react-router-dom'
 import { useGetProfileQuery } from '../../Redux/Apis/authApi'
 import { url } from '../../Utils/BaseUrl'
+import { useSocketContext } from '../../Context/SocketContext'
 const Header = () => {
     //states
     const navigate = useNavigate()
     //  rtk query
-    const { data, isLoading, isError, error, isFetching } = useGetProfileQuery()
+    const { data } = useGetProfileQuery()
+    const { notifications } = useSocketContext();
+    const unreadNotifications = notifications?.filter((notification) => notification?.isRead === false);
     return (
         <div className='bg-[var(--primary-bg)] end-center h-[110px] px-4 gap-6'>
-            <Badge onClick={() => navigate('/notification')} className='bg-[var(--bg-white)] rounded-full cursor-pointer' count={2}>
+            <Badge onClick={() => navigate('/notification')} className='bg-[var(--bg-white)] rounded-full cursor-pointer' count={unreadNotifications.length || 0}>
                 <IoIosNotifications size={40} />
             </Badge>
             <div onClick={() => navigate('/profile')} className='center-center gap-2 px-3 w-fit py-1 border border-[var(--bg-white)] rounded-md cursor-pointer'>

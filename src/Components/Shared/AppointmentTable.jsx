@@ -1,9 +1,42 @@
 
+import toast from 'react-hot-toast'
 import UserImageName from './UserImageName'
-import { Table } from 'antd'
+import { Button, Table } from 'antd'
+import { useTransferbalanceMutation } from '../../Redux/Apis/paymentApis'
+import { MdOutlinePayment } from 'react-icons/md'
+import { RxCross2 } from 'react-icons/rx'
+import Loading from './Loading'
 
 const AppointmentTable = ({ data, pagination, handler, current }) => {
+    //    // rtk query
+    const [transferbalance, { isLoading }] = useTransferbalanceMutation()
 
+    // handler 
+    // give doctor payment  
+    const handleDoctorPayment = (record) => {
+        toast.dismiss()
+        toast((t) => (
+            <span>
+                <p>Confirm Payment for {record?.doctorId?.name} amount ${record?.doctorId?.appointment_fee}</p>
+                <span className='start-center gap-2 mt-1'>
+                    <Button style={{
+                        padding: '3px ',
+                        borderRadius: '3px'
+                    }} classNames={`button-red `} icon={<RxCross2 />} handler={() => toast.dismiss(t.id)}>
+                        no
+                    </Button>
+                    <Button handler={() => {
+                        toast.dismiss(t.id)
+                        transferbalance({ doctorId: record?.doctorId?._id, appointmentId: record?._id }).unwrap().then((res) => toast.success(res?.message || 'Category deleted successfully')).catch((err) => toast.error(err?.data?.message || 'something went wrong'))
+                    }} icon={<MdOutlinePayment />} classNames={`button-green`} style={{
+                        padding: '4px'
+                    }} >
+                        pay
+                    </Button>
+                </span>
+            </span>
+        ));
+    }
     // table columns
     const columns = [
         // {
@@ -64,7 +97,7 @@ const AppointmentTable = ({ data, pagination, handler, current }) => {
             render: (_, record) => {
                 const isDisabled = record?.status === 'completed' && record?.payment_status && !record?.doctor_payment ? false : true;
                 const color = (record?.status === 'completed' && record?.payment_status && !record?.doctor_payment) ? 'orange' : (!record?.status === 'completed' && record?.payment_status && !record?.doctor_payment) ? 'green' : 'red'
-                return <button disabled={isDisabled} style={{
+                return <button onClick={() => handleDoctorPayment(record)} disabled={isDisabled} style={{
                     color: `white`,
                     background: isDisabled ? 'gray' : `${color}`,
                     border: `1.5px solid ${isDisabled ? 'gray' : `${color}`}`
@@ -77,13 +110,16 @@ const AppointmentTable = ({ data, pagination, handler, current }) => {
     ]
     return (
         <>
+            {
+                isLoading && <Loading />
+            }
             <Table dataSource={data} columns={columns} pagination={pagination ? {
                 pageSize: pagination?.limit || 10,
                 total: pagination?.total || 0,
-                current: pagination?.current || 1,
+                current: current || 1,
                 onChange: (page) => {
-                    if (pagination?.handler) {
-                        pagination.handler(page)
+                    if (handler) {
+                        handler(page)
                     }
                 },
                 showSizeChanger: false
