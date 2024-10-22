@@ -17,7 +17,7 @@ const Profile = () => {
             <div className='center-center flex-col gap-6 mt-6 pb-4'>
                 <div className='w-[60%]  mx-auto rounded-md bg-[var(--bg-white)] p-6 center-center flex-col gap-3 relative'>
                     <img src={image ? URL.createObjectURL(image) : data?.data?.img ? `${url}/${data?.data?.img}` : profileImage} className='w-24 h-24 object-cover rounded-full' alt="profileImage" />
-                    <p className='heading'>shaharul siyam</p>
+                    <p className='heading'>{data?.data?.name}</p>
                     {
                         tab === 'edit_profile' && <label htmlFor="profileImage">
                             <MdEdit size={24} className='absolute right-2 top-2 cursor-pointer' />

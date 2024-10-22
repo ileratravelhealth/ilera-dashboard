@@ -11,8 +11,9 @@ const paymentApis = baseApi.injectEndpoints({
                     return false
                 } else {
                     return {
-                        url: `payment/get-payment?doctorId=${doctorId}&appointmentId=${appointmentId}`,
-                        method: 'POST'
+                        url: `payment/transfer-ballance`,
+                        method: 'POST',
+                        body: { doctorId, appointmentId }
                     }
                 }
 

@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 import UserImageName from '../Shared/UserImageName'
 import { Modal, Table } from 'antd'
-import { MdBlockFlipped, MdDelete, MdEdit } from 'react-icons/md'
+import {  MdDelete, MdEdit,MdNotInterested } from 'react-icons/md'
 import { FaCheck } from 'react-icons/fa6'
 import { RxCross2 } from 'react-icons/rx'
 import ChangeBannerOrder from './ChangeBannerOrder'
 import Category_Banner_Form from './Category_Banner_Form'
-import { useGetBannerQuery, useUpdateBannerOrderMutation, useUpdateBannerStatusMutation } from '../../Redux/Apis/bannerApi'
+import { useGetBannerQuery, useUpdateBannerOrderMutation, useUpdateBannerStatusMutation, useDeleteBannerMutation } from '../../Redux/Apis/bannerApi'
 import Loading from '../Shared/Loading'
 import toast from 'react-hot-toast'
+import Button from '../Shared/Button'
 
 const BannerTable = ({ set_selected_data, set_open_category_banner_modal, setAction }) => {
     // states
@@ -18,6 +19,7 @@ const BannerTable = ({ set_selected_data, set_open_category_banner_modal, setAct
     const { data, isLoading, isError, error } = useGetBannerQuery(page)
     const [updateBannerStatus, { isLoading: isLoadingUpdateBannerStatus }] = useUpdateBannerStatusMutation()
     const [updateBannerOrder, { isLoading: isLoadingUpdateBannerOrder }] = useUpdateBannerOrderMutation()
+    const [deleteBanner, { isLoading: isLoadingDeleteBanner }] = useDeleteBannerMutation()
     // handler
     //update banner status
     const UpdateBannerStatus = (id, isActive) => {
@@ -39,7 +41,7 @@ const BannerTable = ({ set_selected_data, set_open_category_banner_modal, setAct
                 <span className='start-center gap-2 mt-1'>
                     <Button handler={() => {
                         toast.dismiss(t.id)
-                        deleteCategory(id).unwrap().then((res) => toast.success(res?.message || 'Category deleted successfully')).catch((err) => toast.error(err?.data?.message || 'something went wrong'))
+                        deleteBanner(id).unwrap().then((res) => toast.success(res?.message || 'Category deleted successfully')).catch((err) => toast.error(err?.data?.message || 'something went wrong'))
                     }} icon={<MdDelete />} classNames={`button-red`} style={{
                         padding: '4px'
                     }} />
@@ -102,7 +104,7 @@ const BannerTable = ({ set_selected_data, set_open_category_banner_modal, setAct
                 }} className='button-black'>
                     <MdEdit size={24} />
                 </button>
-                <button style={{
+                <button onClick={() => handleDelete(record?._id)} style={{
                     padding: '10px'
                 }} className='button-red'>
                     <MdDelete size={24} />
@@ -110,7 +112,7 @@ const BannerTable = ({ set_selected_data, set_open_category_banner_modal, setAct
             </div>
         },
     ]
-    return (
+    return (//onClick={() => handleDelete(record?._id)}
         <>
             <Table dataSource={data?.data} columns={columns} pagination={{
                 pageSize: data?.pagination?.itemsPerPage || 10,

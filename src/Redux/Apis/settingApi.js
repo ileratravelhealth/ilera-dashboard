@@ -8,13 +8,15 @@ const settingApi = baseApi.injectEndpoints({
                 url: 'settings/update-settings',
                 method: 'POST',
                 body: data
-            })
+            }),
+            invalidatesTags: ['settings']
         }),
         getAboutTermsPrivacy: build.query({
             query: (type) => ({
                 url: `settings/get-settings/${type}`,
                 method: 'GET'
-            })
+            }),
+            providesTags: ['settings']
         })
     })
 })

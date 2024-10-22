@@ -1,13 +1,14 @@
 
 import toast from 'react-hot-toast'
 import UserImageName from './UserImageName'
-import { Button, Table } from 'antd'
+import { Table } from 'antd'
 import { useTransferbalanceMutation } from '../../Redux/Apis/paymentApis'
 import { MdOutlinePayment } from 'react-icons/md'
 import { RxCross2 } from 'react-icons/rx'
 import Loading from './Loading'
+import Button from './Button'
 
-const AppointmentTable = ({ data, pagination, handler, current }) => {
+const AppointmentTable = ({ data, pagination }) => {
     //    // rtk query
     const [transferbalance, { isLoading }] = useTransferbalanceMutation()
 
@@ -22,16 +23,16 @@ const AppointmentTable = ({ data, pagination, handler, current }) => {
                     <Button style={{
                         padding: '3px ',
                         borderRadius: '3px'
-                    }} classNames={`button-red `} icon={<RxCross2 />} handler={() => toast.dismiss(t.id)}>
-                        no
+                    }} classNames={`button-red `} text={`no`} icon={<RxCross2 />} handler={() => toast.dismiss(t.id)}>
+
                     </Button>
                     <Button handler={() => {
-                        toast.dismiss(t.id)
-                        transferbalance({ doctorId: record?.doctorId?._id, appointmentId: record?._id }).unwrap().then((res) => toast.success(res?.message || 'Category deleted successfully')).catch((err) => toast.error(err?.data?.message || 'something went wrong'))
-                    }} icon={<MdOutlinePayment />} classNames={`button-green`} style={{
+                        toast.dismiss()
+                        transferbalance({ doctorId: record?.doctorId?._id, appointmentId: record?._id }).unwrap().then((res) => { console.log(res); toast.success(res?.message || 'Category deleted successfully') }).catch((err) => toast.error(err?.data?.message || 'something went wrong'))
+                    }} icon={<MdOutlinePayment />} text={`pay`} classNames={`button-green`} style={{
                         padding: '4px'
                     }} >
-                        pay
+
                     </Button>
                 </span>
             </span>
@@ -102,7 +103,7 @@ const AppointmentTable = ({ data, pagination, handler, current }) => {
                     background: isDisabled ? 'gray' : `${color}`,
                     border: `1.5px solid ${isDisabled ? 'gray' : `${color}`}`
                 }} className='button-green font-semibold disabled:bg-gray-500 disabled:cursor-not-allowed'>
-                    {(record?.status === 'completed' && record?.payment_status && !record?.doctor_payment) ? 'pay' : (!record?.status === 'completed' && record?.payment_status && !record?.doctor_payment) ? 'paid' : 'pending'}
+                    {(record?.status === 'completed' && record?.payment_status && !record?.doctor_payment) ? 'pay' : record?.doctor_payment ? 'paid' : 'pending'}
                 </button>
             }
         }
@@ -116,10 +117,10 @@ const AppointmentTable = ({ data, pagination, handler, current }) => {
             <Table dataSource={data} columns={columns} pagination={pagination ? {
                 pageSize: pagination?.limit || 10,
                 total: pagination?.total || 0,
-                current: current || 1,
+                current: pagination?.current || 1,
                 onChange: (page) => {
-                    if (handler) {
-                        handler(page)
+                    if (pagination?.handler) {
+                        pagination?.handler(page)
                     }
                 },
                 showSizeChanger: false

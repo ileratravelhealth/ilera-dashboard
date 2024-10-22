@@ -50,7 +50,7 @@ const Patients = () => {
             title: 'Name',
             dataIndex: 'name',
             key: 'name',
-            render: (_, record) => <UserImageName name={record?.name} image={record?.image} />
+            render: (_, record) => <UserImageName name={record?.name} image={record?.img} />
         },
         {
             title: 'Patient Age',

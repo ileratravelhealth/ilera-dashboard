@@ -12,7 +12,7 @@ const Login = () => {
     const { data, isLoading: fetchingProfile, isError, error } = useGetProfileQuery()
     const navigate = useNavigate()
     const location = useLocation()
-    if (!fetchingProfile && data?.data?.role === 'ADMIN') {
+    if (localStorage.getItem('token') && (!fetchingProfile && data?.data?.role === 'ADMIN')) {
         navigate(location?.state || '/')
     }
     //states

@@ -19,7 +19,9 @@ const Notification = () => {
             <PageHeading text="Notifications" />
             <div className='between-center mt-5 mb-5'>
                 <p className='heading '>Total {totalNotifications} Notifications</p>
-                <Button style={{ padding: '10px 20px' }} text={"read all"} classNames="button-blue w-full mt-5 " handler={() => readAllNotifications()} ></Button>
+                <div className='text-end'>
+                    <Button style={{ padding: '10px 20px' }} text={"read all"} classNames="button-blue w-full mt-5 " handler={() => readAllNotifications()} ></Button>
+                </div>
             </div>
             <div className='start-start gap-2 flex-col'>
                 {

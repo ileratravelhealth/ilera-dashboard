@@ -5,7 +5,7 @@ const appointmentApi = baseApi.injectEndpoints({
         // get appointment
         getAppointment: builder.query({
             query: ({ page, filter }) => ({
-                url: `appointment/get-my-appointments?page=${page || 1}${filter?.search ? `&search=${filter?.search}` : ''}${filter?.doctor_payment ? `&doctor_payment=${filter?.doctor_payment}` : ''}${filter?.payment_status ? `&payment_status=${filter?.payment_status}` : ''}${filter?.status ? `&status=${filter?.status}` : ''}`,
+                url: `appointment/get-my-appointments?page=${page || 1}${filter?.search ? `&search=${filter?.search}` : ''}${filter?.doctor_payment || filter?.doctor_payment === false ? `&doctor_payment=${filter?.doctor_payment}` : ''}${filter?.payment_status || filter?.payment_status === false ? `&payment_status=${filter?.payment_status}` : ''}${filter?.status ? `&status=${filter?.status}` : ''}`,
                 method: 'GET'
             }),
             providesTags: ['appointment']

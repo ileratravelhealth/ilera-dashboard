@@ -38,7 +38,7 @@ const categoryApi = baseApi.injectEndpoints({
         getBanner: builder.query({
             query: (page) => {
                 return {
-                    url: `banner/get-banners?page=${page || 1}`,
+                    url: `banner/get-banners?page=${page || 1}&order=asc&sort=order`,
                     method: 'GET',
                 }
             },
@@ -49,7 +49,7 @@ const categoryApi = baseApi.injectEndpoints({
         deleteBanner: builder.mutation({
             query: (id) => {
                 return {
-                    url: `category/delete-category/${id}`,
+                    url: `banner/delete-banner/${id}`,
                     method: 'DELETE',
                 }
             },

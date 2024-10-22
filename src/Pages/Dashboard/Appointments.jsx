@@ -16,6 +16,7 @@ const Appointments = () => {
     // rtk query
     // handler
     const onSearch = value => {
+        setPage(1)
         setFilter({ ...filter, search: value })
     }
     return (
