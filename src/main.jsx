@@ -4,7 +4,7 @@ import { RouterProvider } from 'react-router-dom'
 import { Routes } from './Routes/Routes'
 import './index.css'
 import { Provider } from 'react-redux'
-import { store } from './Redux/Store'
+import { store } from './Redux/store'
 import { Toaster } from 'react-hot-toast'
 import SocketContext from './Context/SocketContext'
 
