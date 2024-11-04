@@ -37,7 +37,7 @@ const BannerTable = ({ set_selected_data, set_open_category_banner_modal, setAct
         toast.dismiss()
         toast((t) => (
             <span>
-                <p>are you sure wants to delete this Category?</p>
+                <p>are you sure wants to delete this Banner?</p>
                 <span className='start-center gap-2 mt-1'>
                     <Button handler={() => {
                         toast.dismiss(t.id)
