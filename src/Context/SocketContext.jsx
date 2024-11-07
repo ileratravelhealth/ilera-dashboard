@@ -22,7 +22,7 @@ const SocketContext = ({ children }) => {
             if (notificationsData?.data?.length > 0) {
                 setNotifications(notificationsData?.data)
             }
-            const socket = io(`http://46.101.79.101:5000?userId=${data?.data?._id}`);
+            const socket = io(`http://13.43.16.29:5000?userId=${data?.data?._id}`);
             setSocket(socket);
             socket.on("getOnlineUsers", (users) => {
                 setOnlineUsers(users);
