@@ -1,12 +1,14 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import {url} from "../Utils/BaseUrl.js";
+
 export const baseApi = createApi({
     reducerPath: 'medicalStartup',
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://13.43.16.29:5000",
+        baseUrl: `${url}`,
         headers: {
             Authorization: `Bearer ${JSON.parse((localStorage.getItem('token'))) || ""}`,
         },
     }),
     endpoints: () => ({}),
-    tagTypes: ["auth", 'category','doctor','banner'],
+    tagTypes: ["auth", 'category', 'doctor', 'banner'],
 })

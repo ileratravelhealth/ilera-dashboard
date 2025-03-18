@@ -1,8 +1,8 @@
 export const LoginFields = [
     {
         name: 'phone',
-        label: 'phone number with country code',
-        placeholder: '+8801566026301',
+        label: 'Phone number with country code',
+        placeholder: 'Enter Phone Number',
         required: true,
         message: 'please input your Phone number',
         type: 'text',
@@ -10,7 +10,7 @@ export const LoginFields = [
     {
         name: 'password',
         label: 'Password',
-        placeholder: 'insert your password',
+        placeholder: 'Enter password',
         required: true,
         message: 'please input your password',
         type: 'password',

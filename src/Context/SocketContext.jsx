@@ -3,6 +3,7 @@ import { createContext, useState, useEffect, useContext } from "react";
 import io from "socket.io-client";
 import { useGetProfileQuery } from '../Redux/Apis/authApi';
 import { useGetNotificationsQuery } from '../Redux/Apis/notificationsApis';
+import {url} from "../Utils/BaseUrl.js";
 
 const SocketContextData = createContext();
 
@@ -22,7 +23,7 @@ const SocketContext = ({ children }) => {
             if (notificationsData?.data?.length > 0) {
                 setNotifications(notificationsData?.data)
             }
-            const socket = io(`http://13.43.16.29:5000?userId=${data?.data?._id}`);
+            const socket = io(`${url}?userId=${data?.data?._id}`);
             setSocket(socket);
             socket.on("getOnlineUsers", (users) => {
                 setOnlineUsers(users);
