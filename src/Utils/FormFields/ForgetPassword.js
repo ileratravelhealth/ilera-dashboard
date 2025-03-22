@@ -1,10 +1,10 @@
 export const ForgetPasswordFields = [
     {
-        name: 'phone',
-        label: 'phone number with country code:',
-        placeholder: '+8801566026301',
+        name: 'email',
+        label: 'Email',
+        placeholder: 'siyamoffiec0273@gmail.com',
         required: true,
-        message: 'please input your phone number',
-        type: 'text',
+        message: 'please input your email address',
+        type: 'email',
     },
 ]
