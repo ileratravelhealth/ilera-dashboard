@@ -6,7 +6,6 @@ export default defineConfig(({command, mode, ssrBuild}) => {
     const isDev = env.NODE_ENV !== 'production';
     const port = env.VITE_LOCAL_PORT
     const url = env.VITE_LOCAL_URL
-    console.warn('port', port)
 
     if (isDev) {
         return {
