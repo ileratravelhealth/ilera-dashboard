@@ -1,7 +1,8 @@
 import { FaUserDoctor } from "react-icons/fa6";
 import { HiArrowTrendingUp } from "react-icons/hi2";
-import { LuCalendarClock, LuUser2 } from "react-icons/lu";
+import { LuCalendarClock } from "react-icons/lu";
 import { MdDashboard } from "react-icons/md";
+import {LuUser} from "react-icons/lu";
 
 export const SidebarLink = [
     {
@@ -22,7 +23,7 @@ export const SidebarLink = [
     {
         path: '/patients',
         label: 'Patients',
-        icon: <LuUser2 size={24} />,
+        icon: <LuUser size={24} />,
     },
     {
         path: '/doctors',

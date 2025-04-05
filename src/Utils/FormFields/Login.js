@@ -2,7 +2,7 @@ export const LoginFields = [
     {
         name: 'email',
         label: 'Email',
-        placeholder: 'siyamoffice0273@gmail.com',
+        placeholder: 'Enter Email',
         required: true,
         message: 'please input your email',
         type: 'text',
@@ -10,7 +10,7 @@ export const LoginFields = [
     {
         name: 'password',
         label: 'Password',
-        placeholder: 'insert your password',
+        placeholder: 'Enter password',
         required: true,
         message: 'please input your password',
         type: 'password',
